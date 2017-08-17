@@ -38,7 +38,7 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
       warning ("The minority class instances is not enough. k is set to ", k)
     } 
     NumAtt <- nrow(P)  # Feature dimension
-    ratio <- FindRatio(P, N, m)
+    ratio <- FindRatioPara(P, N, m)
     No <- round(nTarget*ratio)
     while (sum(No) != nTarget) {
       tmp <- max(No)
