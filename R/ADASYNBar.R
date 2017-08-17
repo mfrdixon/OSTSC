@@ -11,7 +11,7 @@
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @keywords internal
 
-ADASYN <- function(P, N, nTarget, k, m) {
+ADASYNBar <- function(P, N, nTarget, k, m) {
   # Generate samples by ADASYN.
   #
   # Args:
