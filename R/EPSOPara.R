@@ -17,7 +17,7 @@
 #' @importFrom foreach foreach %dopar%
 #' @keywords internal
 
-EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
+EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   # Generate samples by EPSO.
   #
   # Args:
