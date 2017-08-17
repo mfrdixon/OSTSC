@@ -78,7 +78,7 @@ EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
         }
       }
     }
-    setTxtProgressBar(pb, i)
+    setTxtProgressBar(pb, cnt)
   }
   close(pb)
 
