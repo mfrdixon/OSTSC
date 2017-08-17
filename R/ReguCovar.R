@@ -8,11 +8,13 @@
 #'          with the default value 1
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
+#' @param parallel Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)
+#' @param progBar Whether to include progress bars, with the default setting TRUE
 #' @return myData
 #' @importFrom stats cov
 #' @keywords internal
 
-INOS2013 <- function(P, N, nTarget, R, Per, k, m) {
+ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   # Generate samples by EPSO and ADASYN.
   #
   # Args:
@@ -25,6 +27,8 @@ INOS2013 <- function(P, N, nTarget, R, Per, k, m) {
   #   Per:      Percentage of the mixing between EPSO and ADASYN. 
   #   k:        k-NN used in the ADASYN algorithm, with the default value 5.
   #   m:        m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
+  #   parallel: Whether to run in parallel, with the default setting TRUE. (Recommend for dataset with over 30,000 records)
+  #   progBar:  Whether to include progress bars, with the default setting TRUE.
   #
   # Returns:
   #   The oversampled dataset myData.
@@ -71,8 +75,38 @@ INOS2013 <- function(P, N, nTarget, R, Per, k, m) {
     }
   }
   # Construct Oversampled Data
-  sample_epso <- EPSO(Me, V, dMod, P, N, R, M, NumToGen)
-  sample_ada <- ADASYN(t(P), t(N), NumADASYN, k, m)
+  if (NumToGen != 0) {
+    if (identical(parallel, FALSE)) {
+      if (identical(progBar, FALSE)) {
+        sample_epso <- EPSO(Me, V, dMod, P, N, R, M, NumToGen)
+      } else {
+        sample_epso <- EPSOBar(Me, V, dMod, P, N, R, M, NumToGen)
+      }
+    } else {
+      if (identical(progBar, FALSE)) {
+        sample_epso <- EPSOPara(Me, V, dMod, P, N, R, M, NumToGen)
+      } else {
+        sample_epso <- EPSOParaBar(Me, V, dMod, P, N, R, M, NumToGen)
+      }
+    }
+  }
+
+  if (NumADASYN != 0) {
+    if (identical(parallel, FALSE)) {
+      if (identical(progBar, FALSE)) {
+        sample_ada <- ADASYN(t(P), t(N), NumADASYN, k, m)
+      } else {
+        sample_ada <- ADASYNBar(t(P), t(N), NumADASYN, k, m)
+      }
+    } else {
+      if (identical(progBar, FALSE)) {
+        sample_ada <- ADASYNPara(t(P), t(N), NumADASYN, k, m)
+      } else {
+        sample_ada <- ADASYNParaBar(t(P), t(N), NumADASYN, k, m)
+      }
+    }
+  }
+  
   myData <- rbind(t(sample_ada), sample_epso)
   return(myData)
 }
