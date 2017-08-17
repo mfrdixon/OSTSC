@@ -18,7 +18,7 @@
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @keywords internal
 
-EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
+EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   # Generate samples by EPSO.
   #
   # Args:
