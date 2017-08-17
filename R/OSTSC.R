@@ -181,7 +181,7 @@ OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15,
   nTarget <- nrow(N)*ratio
   
   # oversampling
-  myData <- INOS2013(P, N, nTarget, R, Per, k, m)
+  myData <- ReguCovar(P, N, nTarget, R, Per, k, m, parallel, progBar)
   
   # form new data
   data_target_class <- cbind(matrix(target_class, nTarget, 1), myData)
