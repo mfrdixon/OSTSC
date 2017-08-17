@@ -2,9 +2,9 @@
 #' @description Oversample a time series sequence imbalance data.
 #' @details This function balances a binary imbalance time series data. 
 #' @references H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng, 
-#' @references "Integrated Oversampling for Imbalanced Time Series Classification"
-#' @references IEEE Trans. on Knowledge and Data Engineering (TKDE), 
-#' @references vol. 25(12), pp. 2809-2822, 2013
+#'             "Integrated Oversampling for Imbalanced Time Series Classification"
+#'             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
+#'             vol. 25(12), pp. 2809-2822, 2013
 #' @param sample univariate sequence data samples
 #' @param label labels corresponding to samples
 #' @param target_class the label of the class which need to be oversampled
@@ -16,6 +16,8 @@
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
 #' @param parallel Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)
 #' @param progBar Whether to include progress bars, with the default setting TRUE
+#'                For EPSO approach, the bar charactor is |--------|100% 
+#'                For ADASYN approach, the bar charactor is |========|100%
 #' @return sample: the time series sequences data oversampled
 #' @return label: the label corresponding to each row of records
 #' @importFrom stats na.omit 
