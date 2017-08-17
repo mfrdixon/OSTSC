@@ -14,7 +14,7 @@
 #'          with the default value 1
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
-#' @param parallel Whether to run in parallel, with the default setting TRUE
+#' @param parallel Whether to run in parallel, with the default setting TRUE (Recommend for dataset over 30,000)
 #' @param progBar When running in parallel, whether to include progress bars, with the default setting TRUE
 #' @return sample: the time series sequences data oversampled
 #' @return label: the label corresponding to each row of records
@@ -47,7 +47,7 @@ OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15,
   #                 syntactic data in EPSO, with the default value 1.
   #   k:            k-NN used in the ADASYN algorithm, with the default value 5.
   #   m:            m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
-  #   parallel:     Whether to run in parallel, with the default setting TRUE.
+  #   parallel:     Whether to run in parallel, with the default setting TRUE. (Recommend for dataset over 30,000)
   #   progBar:      When running in parallel, whether to include progress bars, with the default setting TRUE.
   #
   # Returns:
