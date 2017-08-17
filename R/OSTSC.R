@@ -33,7 +33,7 @@
 #' # print the label data after oversampling
 #' MyData$label
 
-OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15, parallel=TRUE, progBar=TRUE) {
+OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 15, parallel = TRUE, progBar = TRUE) {
   # Oversample a time series sequence imbalance data.
   #
   # Args:
@@ -116,7 +116,7 @@ OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15,
   }  
   
   # check if the k input is an integer
-  if (k%%1 != 0) {
+  if (k %% 1 != 0) {
     stop ("The parameter k is not in correct format, which must be an integer.")
   }
 
