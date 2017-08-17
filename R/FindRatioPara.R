@@ -10,7 +10,7 @@
 #' @importFrom foreach foreach %dopar%
 #' @keywords internal
 
-FindRatio <- function(P, N, m) {
+FindRatioPara <- function(P, N, m) {
   # Find the distribution of the positive data to determine the ratio of each positive data to be generated.
   #
   # Args:
