@@ -14,7 +14,8 @@
 #'          with the default value 1
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
-#' @param parallel Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)
+#' @param parallel Whether to run in parallel, with the default setting TRUE. 
+#'                 (Recommend for dataset with over 30,000 records. The using cores is 1 less than the total cores)
 #' @param progBar Whether to include progress bars, with the default setting TRUE.
 #'                For EPSO approach, the bar charactor is |--------|100\%. 
 #'                For ADASYN approach, the bar charactor is |========|100\%.
