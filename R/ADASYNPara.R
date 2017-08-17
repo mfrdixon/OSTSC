@@ -13,7 +13,7 @@
 #' @importFrom foreach foreach %dopar%
 #' @keywords internal
 
-ADASYN <- function(P, N, nTarget, k, m) {
+ADASYNPara <- function(P, N, nTarget, k, m) {
   # Generate samples by ADASYN.
   #
   # Args:
