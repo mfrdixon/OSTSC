@@ -27,9 +27,9 @@ with the default value 1}
 
 \item{parallel}{Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)}
 
-\item{progBar}{Whether to include progress bars, with the default setting TRUE
-For EPSO approach, the bar charactor is |--------|100\% 
-For ADASYN approach, the bar charactor is |========|100\%}
+\item{progBar}{Whether to include progress bars, with the default setting TRUE.
+For EPSO approach, the bar charactor is |--------|100\%. 
+For ADASYN approach, the bar charactor is |========|100\%.}
 }
 \value{
 sample: the time series sequences data oversampled
@@ -57,7 +57,7 @@ MyData$label
 }
 \references{
 H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng, 
-            "Integrated Oversampling for Imbalanced Time Series Classification"
+            "Integrated Oversampling for Imbalanced Time Series Classification" 
             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
             vol. 25(12), pp. 2809-2822, 2013
 }
