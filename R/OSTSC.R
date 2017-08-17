@@ -15,7 +15,7 @@
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
 #' @param parallel Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)
-#' @param progBar When running in parallel, whether to include progress bars, with the default setting TRUE
+#' @param progBar Whether to include progress bars, with the default setting TRUE
 #' @return sample: the time series sequences data oversampled
 #' @return label: the label corresponding to each row of records
 #' @importFrom stats na.omit 
@@ -48,7 +48,7 @@ OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15,
   #   k:            k-NN used in the ADASYN algorithm, with the default value 5.
   #   m:            m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
   #   parallel:     Whether to run in parallel, with the default setting TRUE. (Recommend for dataset with over 30,000 records)
-  #   progBar:      When running in parallel, whether to include progress bars, with the default setting TRUE.
+  #   progBar:      Whether to include progress bars, with the default setting TRUE.
   #
   # Returns:
   #   The oversampled dataset samples data_list$sample and labels data_list$label.
@@ -149,15 +149,7 @@ OSTSC <- function(sample, label, target_class, ratio=1, Per=0.8, R=1, k=5, m=15,
   if (!(identical(progBar, FALSE) || identical(progBar, TRUE))) {
     stop ("The parameter progBar is not in correct format, which must be a boolean value.")
   }
-  
-  # check if the progBar input is TRUE when parallel input is FALSE
-  if (identical(parallel, FALSE) && identical(progBar, TRUE)) {
-    warning ("The progress bar is available only when the function running in parallel. 
-              Because the parameter parallel set to FALSE, progBar set to FALSE too.")
-    progBar = FALSE
-  }
-  
-  
+    
   fullData <- cbind(label, sample)
   fullData <- matrix(unlist(fullData, use.names = FALSE), ncol = ncol(fullData))
   
