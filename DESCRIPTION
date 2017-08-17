@@ -1,7 +1,10 @@
 Package: OSTSC
 Title: Over sampling for time series classification
 Version: 0.0.0.9000
-Author: Lan Wei [aut, cre]
+Author: Lan Wei [aut, trl, cre],
+        Hong Cao [aut],
+        Matthew Dixon [ctb],
+        Diego Klabjan [ctb]
 Maintainer: Lan Wei <lweicdsor@gmail.com>
 Description: To balance the binary imbalance time series data by a combination of EPSO and ADASYN approaches.
 Depends: R (>= 3.2.3)
