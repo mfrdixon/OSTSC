@@ -1,0 +1,93 @@
+#' Generate samples by EPSO algorithm.
+#' 
+#' @param Me Mean vector of positive class
+#' @param V Eigen axes matrix (Each axis is a column vector)
+#' @param D Modified Eigen Spectrum Value
+#' @param P The minority class samples
+#' @param N The majority class samples
+#' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
+#'          with the default value 1
+#' @param M Scalar tells the reliable portion of the eigen spectrum
+#' @param NumToGen The number of samples to be generated
+#' @return sample_epso
+#' @importFrom fields rdist 
+#' @importFrom MASS mvrnorm
+#' @importFrom utils setTxtProgressBar txtProgressBar
+#' @keywords internal
+
+EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
+  # Generate samples by EPSO.
+  #
+  # Args:
+  #   Me:       Mean vector of positive class.
+  #   V:        Eigen axes matrix (Each axis is a column vector).
+  #   D:        Modified Eigen Spectrum Value.
+  #   P:        The minority class samples.
+  #   N:        The majority class samples. P and N must have the same feature dimention, greater than one,
+  #             with no missing values.
+  #   R:        An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data,
+  #             with the default value 1.
+  #   M:        Scalar tells the reliable portion of the eigen spectrum.
+  #   NumToGen: The number of samples to be generated.
+  #
+  # Returns:
+  #   The EPSO oversampled dataset sample_epso.
+  Rn <- M
+  Un <- length(Me) - M
+  
+  MuR <- matrix(0, 1, Rn)
+  SigmaR <- diag(1, Rn)
+  
+  MuU <- matrix(0, 1, Un)
+  SigmaU <- diag(1, Un)
+  
+  SampGen <- matrix(0, NumToGen * R, length(Me))
+  SampSel <- matrix(0, NumToGen, length(Me))
+  Prob <- matrix(0, NumToGen*R, 1)
+  
+  DD <- sqrt(D)
+  
+  nGener <- R * NumToGen
+  pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")
+  for (cnt in 1:nGener) {
+    flag = TRUE
+    while (flag) {
+      aR <- mvrnorm(1, MuR, SigmaR)
+      tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)
+    
+      if (Un > 0) {
+        aU <- mvrnorm(1, MuU, SigmaU)
+        a <- c(aR, aU)*DD  # The vector in Eigen transformed domain
+      } else {
+        a <- aR*DD
+      }
+      x <- a %*% t(V) + Me
+    
+      PDist <- rdist(x, P)
+      NDist <- rdist(x, N)
+    
+      tmp <- min(NDist)
+      ind <- which.min(NDist)
+    
+      if (min(PDist) < tmp) {
+        PPDist <- rdist(t(N[ind, ]), P)
+        if (tmp >= min(PPDist) && tmp <= max(PPDist)) {
+          flag = FALSE
+          SampGen[cnt, ] <- x
+          Prob[cnt, 1] <- tp
+        }
+      }
+    }
+    setTxtProgressBar(pb, i)
+  }
+  close(pb)
+
+  for (i in 1:NumToGen) {
+    tmp <- min(Prob)
+    ind <- which.min(Prob)
+    Prob[ind] <- Inf
+    SampSel[i, ] <- SampGen[ind, ]
+  }
+  sample_epso <- rbind(SampSel, P)
+  return(sample_epso)
+}
