@@ -55,8 +55,8 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
     # generation
     nlen <- length(No)
     
-    cl <- makeCluster(detectCores(logical = FALSE) - 1)
-    registerDoSNOW(cl)
+    cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
+    doSNOW::registerDoSNOW(cl)
     pb <- txtProgressBar(min = 0, max = nlen, style = 3)
     progress <- function(n) setTxtProgressBar(pb, n)
     opts <- list(progress = progress)
@@ -94,7 +94,7 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
       }
     }
     close(pb)
-    stopCluster(cl)
+    parallel::stopCluster(cl)
   }
   return(sample_ada)
 }
