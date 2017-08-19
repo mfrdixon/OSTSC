@@ -50,7 +50,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   DD <- sqrt(D)
   
   nGener <- R * NumToGen
-  
+  cat("Oversampling data by EPSO: \n")
   cl <- makeCluster(detectCores(logical = FALSE) - 1)
   registerDoSNOW(cl)
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")
