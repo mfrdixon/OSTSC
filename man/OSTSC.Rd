@@ -25,11 +25,11 @@ with the default value 1}
 
 \item{m}{m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15}
 
-\item{parallel}{Whether to run in parallel, with the default setting TRUE.
+\item{parallel}{Whether to run in parallel, with the default setting TRUE. 
 (Recommend for dataset with over 30,000 records. The using cores is 1 less than the total cores)}
 
 \item{progBar}{Whether to include progress bars, with the default setting TRUE.
-For EPSO approach, the bar charactor is |--------|100\%.
+For EPSO approach, the bar charactor is |--------|100\%. 
 For ADASYN approach, the bar charactor is |========|100\%.}
 }
 \value{
@@ -62,3 +62,4 @@ H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng,
             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
             vol. 25(12), pp. 2809-2822, 2013
 }
+
