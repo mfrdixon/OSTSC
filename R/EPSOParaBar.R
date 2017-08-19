@@ -57,7 +57,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress = progress)
   # registerDoParallel(cl, cores = cores)
-  seq <- foreach(cnt = 1:nGener, .combine = 'rbind', .options.snow = opts) %dopar% {
+  seq <- foreach::foreach(cnt = 1:nGener, .combine = 'rbind', .options.snow = opts) foreach::%dopar% {
     flag = TRUE
     while (flag) {
 
