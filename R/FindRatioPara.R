@@ -27,7 +27,7 @@ FindRatioPara <- function(P, N, m) {
   cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
   doParallel::registerDoParallel(cl, cores = cores)
 
-  seq <- foreach(i = 1:poscnt, .combine = 'rbind') %dopar% {
+  seq <- foreach::foreach(i = 1:poscnt, .combine = 'rbind') foreach::%dopar% {
     d <- fields::rdist(t(P[, i]), t(C))
     d[i] <- Inf
     min_id <- matrix(0, m, 1)
