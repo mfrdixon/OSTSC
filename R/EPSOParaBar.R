@@ -51,35 +51,35 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   
   nGener <- R * NumToGen
   cat("Oversampling data by EPSO: \n")
-  cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
-  doSNOW::registerDoSNOW(cl)
+  cl <- makeCluster(detectCores(logical = FALSE) - 1)
+  registerDoSNOW(cl)
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress = progress)
   # registerDoParallel(cl, cores = cores)
-  seq <- foreach::foreach(cnt = 1:nGener, .combine = 'rbind', .options.snow = opts) foreach::%dopar% {
+  seq <- foreach(cnt = 1:nGener, .combine = 'rbind', .options.snow = opts) %dopar% {
     flag = TRUE
     while (flag) {
 
-      aR <- MASS::mvrnorm(1, MuR, SigmaR)
+      aR <- mvrnorm(1, MuR, SigmaR)
       tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)
       
       if (Un > 0) {
-        aU <- MASS::mvrnorm(1, MuU, SigmaU)
+        aU <- mvrnorm(1, MuU, SigmaU)
         a <- c(aR, aU)*DD  # The vector in Eigen transformed domain
       } else {
         a <- aR*DD
       }
       x <- a %*% t(V) + Me
       
-      PDist <- fields::rdist(x, P)
-      NDist <- fields::rdist(x, N)
+      PDist <- rdist(x, P)
+      NDist <- rdist(x, N)
       
       tmp <- min(NDist)
       ind <- which.min(NDist)
       
       if (min(PDist) < tmp) {
-        PPDist <- fields::rdist(t(N[ind, ]), P)
+        PPDist <- rdist(t(N[ind, ]), P)
         if (tmp >= min(PPDist) && tmp <= max(PPDist)) {
           res <- list("x" = x, "tp" = tp)
           flag = FALSE
@@ -89,7 +89,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
     }
   }
   close(pb)
-  parallel::stopCluster(cl)
+  stopCluster(cl)
   
   SampGen <- matrix(unlist(seq[, 1]), ncol = length(Me), byrow = TRUE)
   Prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
