@@ -61,7 +61,7 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
     progress <- function(n) setTxtProgressBar(pb, n)
     opts <- list(progress = progress)
     # registerDoParallel(cl, cores = cores)
-    sample_ada <- foreach(i = 1:nlen, .combine = 'cbind', .options.snow = opts) %dopar% {
+    sample_ada <- foreach::foreach(i = 1:nlen, .combine = 'cbind', .options.snow = opts) foreach::%dopar% {
       if (No[i] != 0) {
         # k-NN
         d <- fields::rdist(t(P[, i]), t(P))
