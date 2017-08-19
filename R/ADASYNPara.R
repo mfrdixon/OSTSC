@@ -54,7 +54,7 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
     
     cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
     doParallel::registerDoParallel(cl, cores = cores)
-    sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
+    sample_ada <- foreach::foreach(i = 1:nlen, .combine = 'cbind') foreach::%dopar% {
       if (No[i] != 0) {
         # k-NN
         d <- fields::rdist(t(P[, i]), t(P))
