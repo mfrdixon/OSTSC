@@ -52,7 +52,7 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   
   cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
   doParallel::registerDoParallel(cl, cores = cores)
-  seq <- foreach(cnt = 1:nGener, .combine = 'rbind') %dopar% {
+  seq <- foreach::foreach(cnt = 1:nGener, .combine = 'rbind') foreach::%dopar% {
     flag = TRUE
     while (flag) {
 
