@@ -50,25 +50,25 @@ EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
   while (cnt < R * NumToGen) {
     # flag print(cnt)
     # print(cnt)
-    aR <- MASS::mvrnorm(1, MuR, SigmaR)
+    aR <- mvrnorm(1, MuR, SigmaR)
     tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)
     
     if (Un > 0) {
-      aU <- MASS::mvrnorm(1, MuU, SigmaU)
+      aU <- mvrnorm(1, MuU, SigmaU)
       a <- c(aR, aU)*DD  # The vector in Eigen transformed domain
     } else {
       a <- aR*DD
     }
     x <- a %*% t(V) + Me
     
-    PDist <- fields::rdist(x, P)
-    NDist <- fields::rdist(x, N)
+    PDist <- rdist(x, P)
+    NDist <- rdist(x, N)
     
     tmp <- min(NDist)
     ind <- which.min(NDist)
     
     if (min(PDist) < tmp) {
-      PPDist <- fields::rdist(t(N[ind, ]), P)
+      PPDist <- rdist(t(N[ind, ]), P)
       if (tmp >= min(PPDist) && tmp <= max(PPDist)) {
         cnt <- cnt + 1
         SampGen[cnt, ] <- x
