@@ -58,7 +58,7 @@ ADASYNBar <- function(P, N, nTarget, k, m) {
         next
       }
       # k-NN
-      d <- fields::rdist(t(P[, i]), t(P))
+      d <- rdist(t(P[, i]), t(P))
       d[i] <-Inf  # Set d[i] to infinity manually
       # Find the k indices corresponding to the closest indices
       if (k<log(NT)) {
