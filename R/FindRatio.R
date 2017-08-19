@@ -23,7 +23,7 @@ FindRatio <- function(P, N, m) {
   
   ratio <- matrix(0, poscnt, 1)
   for (i in 1:ncol(P)) {
-    d <- rdist(t(P[, i]), t(C))
+    d <- fields::rdist(t(P[, i]), t(C))
     d[i] <- Inf
     min_id <- matrix(0, m, 1)
     for (j in 1:m) {
