@@ -52,12 +52,12 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
     # generation
     nlen <- length(No)
     
-    cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
-    doParallel::registerDoParallel(cl, cores = cores)
-    sample_ada <- foreach::foreach(i = 1:nlen, .combine = 'cbind') foreach::%dopar% {
+    cl <- makeCluster(detectCores(logical = FALSE) - 1)
+    registerDoParallel(cl, cores = cores)
+    sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
       if (No[i] != 0) {
         # k-NN
-        d <- fields::rdist(t(P[, i]), t(P))
+        d <- rdist(t(P[, i]), t(P))
         d[i] <-Inf  # Set d[i] to infinity manually
         # Find the k indices corresponding to the closest indices
         if (k<log(NT)) {
@@ -86,7 +86,7 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
         return(D)
       }
     }
-    parallel::stopCluster(cl)
+    stopCluster(cl)
   }
   return(sample_ada)
 }
