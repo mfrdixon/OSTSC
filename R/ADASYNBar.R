@@ -30,6 +30,7 @@ ADASYNBar <- function(P, N, nTarget, k, m) {
   } else if (NT == 1) {
     sample_ada <- kronecker(matrix(1, 1, nTarget), P)  # duplicate
   } else {
+    cat("Oversampling data by ADASYN: \n")
     if (k > NT-1) {
       k <- NT-1  # number of nearest neighbours can not be greater than NT-1
       warning ("The minority class instances is not enough. k is set to ", k)
