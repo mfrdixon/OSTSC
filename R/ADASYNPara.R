@@ -52,8 +52,8 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
     # generation
     nlen <- length(No)
     
-    cl <- makeCluster(detectCores(logical = FALSE) - 1)
-    registerDoParallel(cl, cores = cores)
+    cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
+    doParallel::registerDoParallel(cl, cores = cores)
     sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
       if (No[i] != 0) {
         # k-NN
@@ -86,7 +86,7 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
         return(D)
       }
     }
-    stopCluster(cl)
+    parallel::stopCluster(cl)
   }
   return(sample_ada)
 }
