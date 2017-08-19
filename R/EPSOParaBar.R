@@ -51,8 +51,8 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   
   nGener <- R * NumToGen
   cat("Oversampling data by EPSO: \n")
-  cl <- makeCluster(detectCores(logical = FALSE) - 1)
-  registerDoSNOW(cl)
+  cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
+  doSNOW::registerDoSNOW(cl)
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")
   progress <- function(n) setTxtProgressBar(pb, n)
   opts <- list(progress = progress)
@@ -89,7 +89,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
     }
   }
   close(pb)
-  stopCluster(cl)
+  parallel::stopCluster(cl)
   
   SampGen <- matrix(unlist(seq[, 1]), ncol = length(Me), byrow = TRUE)
   Prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
