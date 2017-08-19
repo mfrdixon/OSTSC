@@ -24,11 +24,11 @@ FindRatioPara <- function(P, N, m) {
   C <- cbind(P, N)  # Note that here columns of P and N are the samples
   poscnt <- ncol(P)
   
-  cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
-  doParallel::registerDoParallel(cl, cores = cores)
+  cl <- makeCluster(detectCores(logical = FALSE) - 1)
+  registerDoParallel(cl, cores = cores)
 
-  seq <- foreach::foreach(i = 1:poscnt, .combine = 'rbind') foreach::%dopar% {
-    d <- fields::rdist(t(P[, i]), t(C))
+  seq <- foreach(i = 1:poscnt, .combine = 'rbind') %dopar% {
+    d <- rdist(t(P[, i]), t(C))
     d[i] <- Inf
     min_id <- matrix(0, m, 1)
     for (j in 1:m) {
@@ -41,7 +41,7 @@ FindRatioPara <- function(P, N, m) {
     return(length(Ind))
   }
   
-  parallel::stopCluster(cl)
+  stopCluster(cl)
   
   ratio <- matrix(unlist(seq), ncol = 1, byrow = TRUE)
 
