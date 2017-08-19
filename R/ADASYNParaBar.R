@@ -55,16 +55,16 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
     # generation
     nlen <- length(No)
     
-    cl <- parallel::makeCluster(parallel::detectCores(logical = FALSE) - 1)
-    doSNOW::registerDoSNOW(cl)
+    cl <- makeCluster(detectCores(logical = FALSE) - 1)
+    registerDoSNOW(cl)
     pb <- txtProgressBar(min = 0, max = nlen, style = 3)
     progress <- function(n) setTxtProgressBar(pb, n)
     opts <- list(progress = progress)
     # registerDoParallel(cl, cores = cores)
-    sample_ada <- foreach::foreach(i = 1:nlen, .combine = 'cbind', .options.snow = opts) foreach::%dopar% {
+    sample_ada <- foreach(i = 1:nlen, .combine = 'cbind', .options.snow = opts) %dopar% {
       if (No[i] != 0) {
         # k-NN
-        d <- fields::rdist(t(P[, i]), t(P))
+        d <- rdist(t(P[, i]), t(P))
         d[i] <-Inf  # Set d[i] to infinity manually
         # Find the k indices corresponding to the closest indices
         if (k<log(NT)) {
@@ -94,7 +94,7 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
       }
     }
     close(pb)
-    parallel::stopCluster(cl)
+    stopCluster(cl)
   }
   return(sample_ada)
 }
