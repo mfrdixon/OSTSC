@@ -53,7 +53,7 @@ ADASYN <- function(P, N, nTarget, k, m) {
         next
       }
       # k-NN
-      d <- rdist(t(P[, i]), t(P))
+      d <- fields::rdist(t(P[, i]), t(P))
       d[i] <-Inf  # Set d[i] to infinity manually
       # Find the k indices corresponding to the closest indices
       if (k<log(NT)) {
@@ -70,9 +70,9 @@ ADASYN <- function(P, N, nTarget, k, m) {
         min_id <- id[1:k]
       }
       
-      rn <- floor(runif(No[i], min=0, max=k)) + 1
+      rn <- floor(stats::runif(No[i], min=0, max=k)) + 1
       id <- min_id[rn]
-      weight <- matrix(runif(NumAtt*No[i]), nrow=NumAtt, ncol=No[i], byrow = TRUE)
+      weight <- matrix(stats::runif(NumAtt*No[i]), nrow=NumAtt, ncol=No[i], byrow = TRUE)
       D <- kronecker(matrix(1, 1, No[i]), P[, i])
       
       # for numeric attributes
