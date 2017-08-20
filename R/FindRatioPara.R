@@ -30,15 +30,15 @@ FindRatioPara <- function(P, N, m) {
   seq <- foreach(i = 1:poscnt, .combine = 'rbind') %dopar% {
     d <- rdist(t(P[, i]), t(C))  # the Euclidean distance between each positive sample and full data
     d[i] <- Inf
-    # find m number of smallest elements from the Euclidean distance between each positive sample and full data
+    # find the indices of m number smallest elements from the Euclidean distance between each positive sample and full data
     min_id <- matrix(0, m, 1)
     for (j in 1:m) {
-      tmp <- min(d)
+      # tmp <- min(d)
       id <- which.min(d)
       d[id] <- Inf
       min_id[j] <- id  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
     }
-    Ind <- which(min_id > poscnt)  # find the number of this m number elements larger than the number of positive records
+    Ind <- which(min_id > poscnt)  # find all negative samples from this m number closest elements
     return(length(Ind))
   }  
   stopCluster(cl)  # end parallel  
