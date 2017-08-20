@@ -17,14 +17,16 @@ FindRatio <- function(P, N, m) {
   #   m: m-NN used in finding seeds from the Positive Class, with the default value 15
   #
   # Returns:
-  #   The ratio of each positive sample need to be duplicated ratio.
+  #   ratio: the ratio of each positive sample need to be duplicated.
   C <- cbind(P, N)  # Note that here columns of P and N are the samples
-  poscnt <- ncol(P)
+  poscnt <- ncol(P)  # Number of positive records
   
+  # The ratio of each positive sample need to be duplicated
   ratio <- matrix(0, poscnt, 1)
-  for (i in 1:ncol(P)) {
-    d <- rdist(t(P[, i]), t(C))
+  for (i in 1:poscnt) {
+    d <- rdist(t(P[, i]), t(C))  # the Euclidean distance between each positive sample and full data
     d[i] <- Inf
+    # find m number of smallest elements from the Euclidean distance between each positive sample and full data
     min_id <- matrix(0, m, 1)
     for (j in 1:m) {
       tmp <- min(d)
@@ -32,7 +34,7 @@ FindRatio <- function(P, N, m) {
       d[id] <- Inf
       min_id[j] <- id  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
     }
-    Ind <- which(min_id > poscnt)
+    Ind <- which(min_id > poscnt)  # find the number of this m number elements larger than the number of positive records
     ratio[i] <- length(Ind)
   }
   ratio <- ratio/sum(ratio)
