@@ -47,6 +47,7 @@ EPSO <- function(Me, V, D, P, N, R, M, NumToGen) {
   cnt <- 0
   DD <- sqrt(D)  # square root of modified eigen spectrum value
   
+  #  genetare new positive data sequence until accepted upon Euclidean distance checking
   while (cnt < R * NumToGen) {
     aR <- mvrnorm(1, MuR, SigmaR)  # generate random vectors from the multivariate normal distribution
     tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)  # the density of the multivariate normal distribution
