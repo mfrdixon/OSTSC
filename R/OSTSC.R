@@ -5,10 +5,10 @@
 #'             "Integrated Oversampling for Imbalanced Time Series Classification" 
 #'             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
 #'             vol. 25(12), pp. 2809-2822, 2013
-#' @param sample univariate sequence data samples
-#' @param label labels corresponding to samples
-#' @param target_class the label of the class which need to be oversampled
-#' @param ratio targeted positive samples number to achieve/negative samples number, with the default value 1
+#' @param sample Univariate sequence data samples
+#' @param label Labels corresponding to samples
+#' @param target_class The label of the class which need to be oversampled
+#' @param ratio Targeted positive samples number to achieve/negative samples number, with the default value 1
 #' @param Per Percentage of the mixing between SPO and ADASYN, with the default value 0.8
 #' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in EPSO, 
 #'          with the default value 1
@@ -40,10 +40,10 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   # Oversample a time series sequence imbalance data.
   #
   # Args:
-  #   sample:       univariate sequence data samples.
-  #   label:        labels corresponding to samples.
-  #   target_class: the label of the class which need to be oversampled.
-  #   ratio:        targeted positive samples number to achieve/negative samples number, 
+  #   sample:       Univariate sequence data samples.
+  #   label:        Labels corresponding to samples.
+  #   target_class: The label of the class which need to be oversampled.
+  #   ratio:        Targeted positive samples number to achieve/negative samples number, 
   #                 with the default value 1.
   #   Per:          Percentage of the mixing between EPSO and ADASYN, with the default value 0.8.
   #   R:            An scalar ratio to tell in which level (towards the boundary) we shall push our 
