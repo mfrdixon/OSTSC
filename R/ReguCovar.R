@@ -32,33 +32,34 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   #
   # Returns:
   #   The oversampled dataset myData.
+  
+  # check if the positive data records have already more than the records asked to be created
   poscnt <- nrow(P)
   if (nTarget < poscnt) {
     stop ("The targeted positive class size is too small compared with the existing size")
   }
+  
   # Compute Regularized Eigen Spectra
   NumToGen <- ceiling((nTarget - poscnt)*Per)
   NumADASYN <- nTarget - poscnt - NumToGen
-  # Me: Mean vector of P
-  Me <- apply(P, 2, mean)
-  # PCov: vector covariance
-  PCov <- cov(P)
-  # V:   Eigen axes matrix
-  V <- eigen(PCov)$vectors
+  
+  Me <- apply(P, 2, mean)  # Mean vector of P
+  PCov <- cov(P)  # vector covariance
+  V <- eigen(PCov)$vectors  # Eigen axes matrix
   # V <- V[, n:1]
-  D <- eigen(PCov)$values 
-  # d <- D[n:1]
-  n <- ncol(P)  # n: The feature dimension
-  Ind <- which(D <= 0.005)
+  D <- eigen(PCov)$values  # Eigenvalues
+  # D <- D[n:1]
+  n <- ncol(P)  # The feature dimension
+  Ind <- which(D <= 0.005)  # The unreliable eigenvalues
   if (length(Ind) != 0) {
-    # M: [1,M] the portion of reliable
-    M <- Ind[1]
+    M <- Ind[1]  # [1,M] the portion of reliable
   } else {
     M <- n
   }
-  TCov  <- cov(rbind(P, N))
-  dT <- crossprod(V, TCov) %*% V
-  dT <- diag(dT)
+  TCov  <- cov(rbind(P, N))  # The covariance matrix of the total data (column)
+  dT <- crossprod(V, TCov) %*% V  # dT = V' * TCov * V
+  dT <- diag(dT)  # Turning the diagonal of matrix dT to a vector
+  
   # Modify the Eigen spectrum according to a 1-Parameter Model
   # dMod: Modified Eigen Spectrum Value
   dMod <- matrix(0, 1, n)
@@ -74,7 +75,7 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
       }
     }
   }
-  # Construct Oversampled Data
+  # Create Oversampled Data by EPSO and ADASYN, users choose if applying in parallel and if adding progress bar
   if (NumToGen != 0) {
     if (identical(parallel, FALSE)) {
       if (identical(progBar, FALSE)) {
@@ -107,6 +108,7 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
     }
   }
   
+  # Form new data
   myData <- rbind(t(sample_ada), sample_epso)
   return(myData)
 }
