@@ -34,30 +34,29 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   #
   # Returns:
   #   The EPSO oversampled dataset sample_epso.
-  Rn <- M
-  Un <- length(Me) - M
+  Rn <- M  # reliable portion of the eigen spectrum
+  Un <- length(Me) - M  # unreliable portion of the eigen spectrum
   
-  MuR <- matrix(0, 1, Rn)
-  SigmaR <- diag(1, Rn)
+  MuR <- matrix(0, 1, Rn)  # mean
+  SigmaR <- diag(1, Rn)  # standard deviation
   
-  MuU <- matrix(0, 1, Un)
-  SigmaU <- diag(1, Un)
+  MuU <- matrix(0, 1, Un)  # mean
+  SigmaU <- diag(1, Un)  # standard deviation
   
-  SampSel <- matrix(0, NumToGen, length(Me))
+  SampSel <- matrix(0, NumToGen, length(Me))  # total samples would be kept
   
-  cnt <- 0
-  DD <- sqrt(D)
+  DD <- sqrt(D)  # square root of modified eigen spectrum value
   
-  nGener <- R * NumToGen
+  nGener <- R * NumToGen  # number of total samples needed be created
   
   cl <- makeCluster(detectCores(logical = FALSE) - 1)
   registerDoParallel(cl, cores = cores)
   seq <- foreach(cnt = 1:nGener, .combine = 'rbind') %dopar% {
     flag = TRUE
+    #  genetare new positive data sequence until accepted upon Euclidean distance checking
     while (flag) {
-
-      aR <- mvrnorm(1, MuR, SigmaR)
-      tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)
+      aR <- mvrnorm(1, MuR, SigmaR)  # generate random vectors from the multivariate normal distribution
+      tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)  # the density of the multivariate normal distribution
       
       if (Un > 0) {
         aU <- mvrnorm(1, MuU, SigmaU)
@@ -65,14 +64,15 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
       } else {
         a <- aR*DD
       }
-      x <- a %*% t(V) + Me
+      x <- a %*% t(V) + Me  # the modified generated vector
       
-      PDist <- rdist(x, P)
-      NDist <- rdist(x, N)
+      PDist <- rdist(x, P)  # the Euclidean distance between x and positive data
+      NDist <- rdist(x, N)  # the Euclidean distance between x and negative data
       
-      tmp <- min(NDist)
-      ind <- which.min(NDist)
+      tmp <- min(NDist)  # the value of the smallest element in the Euclidean distance between x and negative data
+      ind <- which.min(NDist)  # the index of the smallest element in the Euclidean distance between x and negative data
       
+      # check if to keep the generated vector upon the Euclidean distance between negative and positive data
       if (min(PDist) < tmp) {
         PPDist <- rdist(t(N[ind, ]), P)
         if (tmp >= min(PPDist) && tmp <= max(PPDist)) {
@@ -87,13 +87,15 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   
   SampGen <- matrix(unlist(seq[, 1]), ncol = length(Me), byrow = TRUE)
   Prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
-
+  # upon the density of the multivariate normal distribution, extract samples from generated ones by given R ratio
   for (i in 1:NumToGen) {
     tmp <- min(Prob)
     ind <- which.min(Prob)
     Prob[ind] <- Inf
     SampSel[i, ] <- SampGen[ind, ]
   }
+  
+  # form new dataset
   sample_epso <- rbind(SampSel, P)
   return(sample_epso)
 }
