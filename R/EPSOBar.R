@@ -46,7 +46,7 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   Prob <- matrix(0, NumToGen*R, 1)
   
   DD <- sqrt(D)
-  cat("Oversampling data by EPSO: \n")
+  cat("Oversampling by EPSO: \n")
   nGener <- R * NumToGen
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")
   for (cnt in 1:nGener) {
