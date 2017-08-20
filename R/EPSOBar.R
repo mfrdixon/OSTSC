@@ -86,7 +86,7 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
 
   # upon the density of the multivariate normal distribution, extract samples from generated ones by given R ratio
   for (i in 1:NumToGen) {
-    tmp <- min(Prob)
+    # tmp <- min(Prob)
     ind <- which.min(Prob)
     Prob[ind] <- Inf
     SampSel[i, ] <- SampGen[ind, ]
