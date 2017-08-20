@@ -82,7 +82,7 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
     }
     setTxtProgressBar(pb, cnt)
   }
-  close(pb)
+  close(pb)  # end progress bar
 
   # upon the density of the multivariate normal distribution, extract samples from generated ones by given R ratio
   for (i in 1:NumToGen) {
