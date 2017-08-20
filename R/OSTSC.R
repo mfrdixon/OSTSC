@@ -152,11 +152,12 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   if (!(identical(progBar, FALSE) || identical(progBar, TRUE))) {
     stop ("The parameter progBar is not in correct format, which must be a boolean value.")
   }
-    
+  
+  # combine labels and features
   fullData <- cbind(label, sample)
   fullData <- matrix(unlist(fullData, use.names = FALSE), ncol = ncol(fullData))
   
-  # clean missing values and non-number values
+  # clean missing values and non-number values by removing their belonging rows
   fullData <- matrix(suppressWarnings(as.numeric(fullData)), nrow = nrow(fullData))
   cleanData <- na.omit(fullData)
   
@@ -164,15 +165,16 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   # The negative data is formed using a one-vs-rest manner.
   Positive <- cleanData[which(cleanData[, c(1)] == target_class), ]
   
-  # check if Positive dataset is empty
   if (nrow(Positive) == 0) {
-    stop ("The target_class does not exist in the input label.")
+    stop ("The target_class does not exist in the input label.")  # check if Positive dataset is empty
   }
   
   Negative <- cleanData[which(cleanData[, c(1)] != target_class), ]
   
-  P <- Positive[, -1]
+  P <- Positive[, -1]  # remove label column
   N <- Negative[, -1]
+  
+  # Number of sequences needed to be created
   nTarget <- nrow(N)*ratio
   
   # oversampling
@@ -180,7 +182,6 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   
   # form new data
   data_target_class <- cbind(matrix(target_class, nTarget, 1), myData)
-  
   data_new <- rbind(data_target_class, Negative)
   # data_new <- data_target_class
   data_x <- data_new[, -1]
