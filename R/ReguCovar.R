@@ -31,7 +31,7 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   #   progBar:  Whether to include progress bars, with the default setting TRUE.
   #
   # Returns:
-  #   myData: The oversampled dataset.
+  #   myData: the oversampled dataset.
   
   # check if the positive data records have already more than the records asked to be created
   poscnt <- nrow(P)
