@@ -34,7 +34,7 @@ FindRatio <- function(P, N, m) {
       d[id] <- Inf
       min_id[j] <- id  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
     }
-    Ind <- which(min_id > poscnt)  # find how many from this m number closest elements is negative sample
+    Ind <- which(min_id > poscnt)  # find all negative samples from this m number closest elements
     ratio[i] <- length(Ind)
   }
   ratio <- ratio/sum(ratio)
