@@ -49,7 +49,7 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   
   nGener <- R * NumToGen  # number of total samples needed be created
   
-  cl <- makeCluster(detectCores(logical = FALSE) - 1)
+  cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
   registerDoParallel(cl, cores = cores)
   seq <- foreach(cnt = 1:nGener, .combine = 'rbind') %dopar% {
     flag = TRUE
@@ -83,7 +83,7 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
       }
     }
   }
-  stopCluster(cl)
+  stopCluster(cl)  # end parallel
   
   SampGen <- matrix(unlist(seq[, 1]), ncol = length(Me), byrow = TRUE)
   Prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
