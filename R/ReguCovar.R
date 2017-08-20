@@ -1,7 +1,7 @@
 #' Generate samples by EPSO and ADASYN.
 #' 
-#' @param P minority class samples
-#' @param N majority class samples
+#' @param P Minority class samples
+#' @param N Majority class samples
 #' @param nTarget The targeted number of samples to achieve
 #' @param Per Percentage of the mixing between SPO and ADASYN, with the default value 0.8
 #' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
@@ -18,8 +18,8 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   # Generate samples by EPSO and ADASYN.
   #
   # Args:
-  #   P:        minority class samples.
-  #   N:        majority class samples. P and N must have the same feature dimention, greater than one,
+  #   P:        Minority class samples.
+  #   N:        Majority class samples. P and N must have the same feature dimention, greater than one,
   #             with no missing values.
   #   nTarget:  The targeted number of samples to achieve.
   #   R:        An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data,
