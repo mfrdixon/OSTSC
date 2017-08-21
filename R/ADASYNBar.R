@@ -84,6 +84,7 @@ ADASYNBar <- function(P, N, nTarget, k, m) {
       aid <- 1:NumAtt
       D[aid, ] <- D[aid, ] + weight[aid, ]*(P[aid, unlist(id)] - D[aid, ])
       sample_ada <- cbind(sample_ada, D)
+      sample_ada <- matrix(unlist(sample_ada), ncol = dim(sample_ada)[2])
       
       setTxtProgressBar(pb, i)  # update progress bar
     }
