@@ -1,5 +1,5 @@
 # OSTSC
-Over sampling for time series classification. This package balances the binary imbalance time series data by a combination of EPSO and ADASYN approaches. Windows & Linux system supported.
+Over sampling for time series classification. This package balances the binary imbalance time series data by a combination of ESPO and ADASYN approaches. Windows & Linux system supported.
 
 # Installation
 ```java
