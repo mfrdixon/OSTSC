@@ -7,7 +7,7 @@ Author: Lan Wei [aut, trl, cre],
     Diego Klabjan [ctb]
 Maintainer: Lan Wei <lweicdsor@gmail.com>
 Description: To balance the binary imbalance time series data by a combination
-    of EPSO and ADASYN approaches.
+    of ESPO and ADASYN approaches.
 Depends:
     R (>= 3.2.3)
 License: GPL-3
