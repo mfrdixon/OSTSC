@@ -2,7 +2,7 @@
 #' 
 #' @param P minority class samples
 #' @param N majority class samples
-#' @param nTarget The targeted number of samples to achieve
+#' @param nTarget the targeted number of samples to achieve
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
 #' @return sample_ada
@@ -37,10 +37,11 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
       warning ("The minority class instances is not enough. k is set to ", k)
     } 
     NumAtt <- nrow(P)  # Feature dimension
-    ratio <- FindRatioPara(P, N, m)
-    No <- round(nTarget*ratio)
+    ratio <- FindRatioPara(P, N, m)  # the ratio of each positive sample need to be duplicated
+    No <- round(nTarget*ratio)  # the number of each positive sample need to be duplicated
+    # adjust No to make the total number of new created samples to equal to the number needed
     while (sum(No) != nTarget) {
-      tmp <- max(No)
+      # tmp <- max(No)
       ind <- which.max(No)
       diff <- nTarget - sum(No)
       if (No[ind] + diff > 0) {
@@ -49,32 +50,31 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
         No[ind] <- 0
       }
     }
-    # generation
-    nlen <- length(No)
-    
-    cl <- makeCluster(detectCores(logical = FALSE) - 1)
+    # data generation
+    nlen <- length(No)  # number of positive samples    
+    cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
     registerDoParallel(cl, cores = cores)
     sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
       if (No[i] != 0) {
         # k-NN
-        d <- rdist(t(P[, i]), t(P))
+        d <- rdist(t(P[, i]), t(P))  # the Euclidean distance between each positive sample and other positive data
         d[i] <-Inf  # Set d[i] to infinity manually
         # Find the k indices corresponding to the closest indices
         if (k<log(NT)) {
           min_id <- list()
           for (j in 1:k) {
-            tmp <- min(d)
+            # tmp <- min(d)
             id <- which.min(d)
             d[id] <-Inf
             min_id <- cbind(min_id, id)  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
           } 
         }else {
-          tmp <- sort(d)
+          # tmp <- sort(d)
           id <- order(d)
           min_id <- id[1:k]
         }
         
-        rn <- floor(runif(No[i], min=0, max=k)) + 1
+        rn <- floor(runif(No[i], min=0, max=k)) + 1  # random generated No[i] elements integer vector in range 1 to k
         id <- min_id[rn]
         weight <- matrix(runif(NumAtt*No[i]), nrow=NumAtt, ncol=No[i], byrow = TRUE)
         D <- kronecker(matrix(1, 1, No[i]), P[, i])
@@ -86,7 +86,7 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
         return(D)
       }
     }
-    stopCluster(cl)
+    stopCluster(cl)  # end parallel
   }
   return(sample_ada)
 }
