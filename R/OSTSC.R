@@ -182,7 +182,7 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   
   # form new data
   data_target_class <- cbind(matrix(target_class, nTarget, 1), myData)
-  data_new <- as.matrix(rbind(data_target_class, Negative))
+  data_new <- rbind(data_target_class, Negative)
   # data_new <- data_target_class
   data_x <- data_new[, -1]
   data_y <- data_new[, c(1)]
