@@ -1,4 +1,4 @@
-#' Generate samples by EPSO algorithm.
+#' Generate samples by ESPO algorithm.
 #' 
 #' @param Me Mean vector of positive class
 #' @param V Eigen axes matrix (Each axis is a column vector)
@@ -9,14 +9,14 @@
 #'          with the default value 1
 #' @param M Scalar tells the reliable portion of the eigen spectrum
 #' @param NumToGen The number of samples to be generated
-#' @return sample_epso
+#' @return sample_espo
 #' @importFrom fields rdist 
 #' @importFrom MASS mvrnorm
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @keywords internal
 
-EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
-  # Generate samples by EPSO.
+ESPOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
+  # Generate samples by ESPO.
   #
   # Args:
   #   Me:       Mean vector of positive class.
@@ -31,7 +31,7 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   #   NumToGen: The number of samples to be generated.
   #
   # Returns:
-  #   The EPSO oversampled dataset sample_epso.
+  #   The ESPO oversampled dataset sample_espo.
   Rn <- M  # reliable portion of the eigen spectrum
   Un <- length(Me) - M  # unreliable portion of the eigen spectrum
   
@@ -46,7 +46,7 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   Prob <- matrix(0, NumToGen*R, 1)  # probability of each sample to be kept
   
   DD <- sqrt(D)  # square root of modified eigen spectrum value
-  cat("Oversampling by EPSO: \n")
+  cat("Oversampling by ESPO: \n")
   nGener <- R * NumToGen  # number of total samples needed be created
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")  # progress bar
   for (cnt in 1:nGener) {
@@ -93,6 +93,6 @@ EPSOBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   }
   
   # form new dataset
-  sample_epso <- rbind(SampSel, P)
-  return(sample_epso)
+  sample_espo <- rbind(SampSel, P)
+  return(sample_espo)
 }
