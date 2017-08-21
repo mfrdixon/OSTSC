@@ -2,21 +2,21 @@
 % Please edit documentation in R/ReguCovar.R
 \name{ReguCovar}
 \alias{ReguCovar}
-\title{Generate samples by EPSO and ADASYN.}
+\title{Generate samples by ESPO and ADASYN.}
 \usage{
 ReguCovar(P, N, nTarget, R, Per, k, m, parallel, progBar)
 }
 \arguments{
-\item{P}{minority class samples}
+\item{P}{Minority class samples}
 
-\item{N}{majority class samples}
+\item{N}{Majority class samples}
 
 \item{nTarget}{The targeted number of samples to achieve}
 
 \item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
 with the default value 1}
 
-\item{Per}{Percentage of the mixing between SPO and ADASYN, with the default value 0.8}
+\item{Per}{Percentage of the mixing between ESPO and ADASYN, with the default value 0.8}
 
 \item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
 
@@ -30,7 +30,7 @@ with the default value 1}
 myData
 }
 \description{
-Generate samples by EPSO and ADASYN.
+Generate samples by ESPO and ADASYN.
 }
 \keyword{internal}
 

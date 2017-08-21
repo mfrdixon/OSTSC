@@ -8,17 +8,17 @@ OSTSC(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5,
   m = 15, parallel = TRUE, progBar = TRUE)
 }
 \arguments{
-\item{sample}{univariate sequence data samples}
+\item{sample}{Univariate sequence data samples}
 
-\item{label}{labels corresponding to samples}
+\item{label}{Labels corresponding to samples}
 
-\item{target_class}{the label of the class which need to be oversampled}
+\item{target_class}{The label of the class which need to be oversampled}
 
-\item{ratio}{targeted positive samples number to achieve/negative samples number, with the default value 1}
+\item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1}
 
-\item{Per}{Percentage of the mixing between SPO and ADASYN, with the default value 0.8}
+\item{Per}{Percentage of the mixing between ESPO and ADASYN, with the default value 0.8}
 
-\item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in EPSO, 
+\item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in ESPO, 
 with the default value 1}
 
 \item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
@@ -29,7 +29,7 @@ with the default value 1}
 (Recommend for dataset with over 30,000 records. The using cores is 1 less than the total cores)}
 
 \item{progBar}{Whether to include progress bars, with the default setting TRUE.
-For EPSO approach, the bar charactor is |--------|100\%. 
+For ESPO approach, the bar charactor is |--------|100\%. 
 For ADASYN approach, the bar charactor is |========|100\%.}
 }
 \value{

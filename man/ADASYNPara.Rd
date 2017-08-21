@@ -11,7 +11,7 @@ ADASYNPara(P, N, nTarget, k, m)
 
 \item{N}{majority class samples}
 
-\item{nTarget}{The targeted number of samples to achieve}
+\item{nTarget}{the targeted number of samples to achieve}
 
 \item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
 
