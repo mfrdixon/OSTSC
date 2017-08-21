@@ -1,4 +1,4 @@
-#' Generate samples by EPSO algorithm.
+#' Generate samples by ESPO algorithm.
 #' 
 #' @param Me Mean vector of positive class
 #' @param V Eigen axes matrix (Each axis is a column vector)
@@ -9,7 +9,7 @@
 #'          with the default value 1
 #' @param M Scalar tells the reliable portion of the eigen spectrum
 #' @param NumToGen The number of samples to be generated
-#' @return sample_epso
+#' @return sample_espo
 #' @importFrom fields rdist 
 #' @importFrom MASS mvrnorm
 #' @importFrom parallel makeCluster stopCluster detectCores
@@ -18,8 +18,8 @@
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @keywords internal
 
-EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
-  # Generate samples by EPSO.
+ESPOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
+  # Generate samples by ESPO.
   #
   # Args:
   #   Me:       Mean vector of positive class.
@@ -34,7 +34,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   #   NumToGen: The number of samples to be generated.
   #
   # Returns:
-  #   The EPSO oversampled dataset sample_epso.
+  #   The ESPO oversampled dataset sample_espo.
   Rn <- M  # reliable portion of the eigen spectrum
   Un <- length(Me) - M  # unreliable portion of the eigen spectrum
   
@@ -49,7 +49,7 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   DD <- sqrt(D)  # square root of modified eigen spectrum value
   
   nGener <- R * NumToGen  # number of total samples needed be created
-  cat("Oversampling by EPSO: \n")
+  cat("Oversampling by ESPO: \n")
   cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
   registerDoSNOW(cl)
   pb <- txtProgressBar(min = 0, max = nGener, style = 3, char = "-")  # progress bar
@@ -102,6 +102,6 @@ EPSOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   }
   
   # form new dataset
-  sample_epso <- rbind(SampSel, P)
-  return(sample_epso)
+  sample_espo <- rbind(SampSel, P)
+  return(sample_espo)
 }
