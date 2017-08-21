@@ -1,9 +1,9 @@
-#' Generate samples by EPSO and ADASYN.
+#' Generate samples by ESPO and ADASYN.
 #' 
 #' @param P Minority class samples
 #' @param N Majority class samples
 #' @param nTarget The targeted number of samples to achieve
-#' @param Per Percentage of the mixing between SPO and ADASYN, with the default value 0.8
+#' @param Per Percentage of the mixing between ESPO and ADASYN, with the default value 0.8
 #' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
 #'          with the default value 1
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
@@ -15,7 +15,7 @@
 #' @keywords internal
 
 ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
-  # Generate samples by EPSO and ADASYN.
+  # Generate samples by ESPO and ADASYN.
   #
   # Args:
   #   P:        Minority class samples.
@@ -24,7 +24,7 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   #   nTarget:  The targeted number of samples to achieve.
   #   R:        An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data,
   #             with the default value 1. 
-  #   Per:      Percentage of the mixing between EPSO and ADASYN. 
+  #   Per:      Percentage of the mixing between ESPO and ADASYN. 
   #   k:        k-NN used in the ADASYN algorithm, with the default value 5.
   #   m:        m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
   #   parallel: Whether to run in parallel, with the default setting TRUE. (Recommend for dataset with over 30,000 records)
@@ -75,19 +75,19 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
       }
     }
   }
-  # Create Oversampled Data by EPSO and ADASYN, users choose if applying in parallel and if adding progress bar
+  # Create Oversampled Data by ESPO and ADASYN, users choose if applying in parallel and if adding progress bar
   if (NumToGen != 0) {
     if (identical(parallel, FALSE)) {
       if (identical(progBar, FALSE)) {
-        sample_epso <- EPSO(Me, V, dMod, P, N, R, M, NumToGen)
+        sample_espo <- ESPO(Me, V, dMod, P, N, R, M, NumToGen)
       } else {
-        sample_epso <- EPSOBar(Me, V, dMod, P, N, R, M, NumToGen)
+        sample_espo <- ESPOBar(Me, V, dMod, P, N, R, M, NumToGen)
       }
     } else {
       if (identical(progBar, FALSE)) {
-        sample_epso <- EPSOPara(Me, V, dMod, P, N, R, M, NumToGen)
+        sample_espo <- ESPOPara(Me, V, dMod, P, N, R, M, NumToGen)
       } else {
-        sample_epso <- EPSOParaBar(Me, V, dMod, P, N, R, M, NumToGen)
+        sample_espo <- ESPOParaBar(Me, V, dMod, P, N, R, M, NumToGen)
       }
     }
   }
@@ -109,6 +109,6 @@ ReguCovar <- function(P, N, nTarget, R, Per, k, m, parallel, progBar) {
   }
   
   # Form new data
-  myData <- rbind(t(sample_ada), sample_epso)
+  myData <- rbind(t(sample_ada), sample_espo)
   return(myData)
 }
