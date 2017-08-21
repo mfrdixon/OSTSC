@@ -17,7 +17,7 @@
 #' @param parallel Whether to run in parallel, with the default setting TRUE. 
 #'                 (Recommend for dataset with over 30,000 records. The using cores is 1 less than the total cores)
 #' @param progBar Whether to include progress bars, with the default setting TRUE.
-#'                For EPSO approach, the bar charactor is |--------|100\%. 
+#'                For ESPO approach, the bar charactor is |--------|100\%. 
 #'                For ADASYN approach, the bar charactor is |========|100\%.
 #' @return sample: the time series sequences data oversampled
 #' @return label: the label corresponding to each row of records
