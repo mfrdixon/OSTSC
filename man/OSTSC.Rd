@@ -2,7 +2,7 @@
 % Please edit documentation in R/OSTSC.R
 \name{OSTSC}
 \alias{OSTSC}
-\title{Over sampling for time series classification}
+\title{Over Sampling for Time Series Classification}
 \usage{
 OSTSC(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5,
   m = 15, parallel = TRUE, progBar = TRUE)
@@ -50,7 +50,7 @@ data(synthetic_control_TRAIN)
 label <- synthetic_control_TRAIN[, c(1)]
 sample <- synthetic_control_TRAIN[, -1] 
 # oversample the class 1 to the same amount of class 0
-MyData <- OSTSC(sample, label, target_class = 1)
+MyData <- OSTSC(sample, label, target_class = 1, parallel = FALSE)
 # print the feature data after oversampling
 MyData$sample
 # print the label data after oversampling
