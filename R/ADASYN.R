@@ -81,6 +81,7 @@ ADASYN <- function(P, N, nTarget, k, m) {
       D[aid, ] <- D[aid, ] + weight[aid, ]*(P[aid, unlist(id)] - D[aid, ])
       
       sample_ada <- cbind(sample_ada, D)
+      sample_ada <- matrix(unlist(sample_ada), ncol = dim(sample_ada)[2])
     }
   }
   return(sample_ada)
