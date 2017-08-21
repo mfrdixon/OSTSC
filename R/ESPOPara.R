@@ -1,4 +1,4 @@
-#' Generate samples by EPSO algorithm.
+#' Generate samples by ESPO algorithm.
 #' 
 #' @param Me Mean vector of positive class
 #' @param V Eigen axes matrix (Each axis is a column vector)
@@ -17,8 +17,8 @@
 #' @importFrom foreach foreach %dopar%
 #' @keywords internal
 
-EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
-  # Generate samples by EPSO.
+ESPOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
+  # Generate samples by ESPO.
   #
   # Args:
   #   Me:       Mean vector of positive class.
@@ -33,7 +33,7 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   #   NumToGen: The number of samples to be generated.
   #
   # Returns:
-  #   The EPSO oversampled dataset sample_epso.
+  #   The ESPO oversampled dataset sample_espo.
   Rn <- M  # reliable portion of the eigen spectrum
   Un <- length(Me) - M  # unreliable portion of the eigen spectrum
   
@@ -96,6 +96,6 @@ EPSOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   }
   
   # form new dataset
-  sample_epso <- rbind(SampSel, P)
-  return(sample_epso)
+  sample_espo <- rbind(SampSel, P)
+  return(sample_espo)
 }
