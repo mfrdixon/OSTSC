@@ -52,8 +52,9 @@ ADASYNPara <- function(P, N, nTarget, k, m) {
     }
     # data generation
     nlen <- length(No)  # number of positive samples    
+    i <- 0
     cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
-    registerDoParallel(cl, cores = cores)
+    registerDoParallel(cl)
     sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
       if (No[i] != 0) {
         # k-NN

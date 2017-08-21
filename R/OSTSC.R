@@ -30,7 +30,7 @@
 #' label <- synthetic_control_TRAIN[, c(1)]
 #' sample <- synthetic_control_TRAIN[, -1] 
 #' # oversample the class 1 to the same amount of class 0
-#' MyData <- OSTSC(sample, label, target_class = 1)
+#' MyData <- OSTSC(sample, label, target_class = 1, parallel = FALSE)
 #' # print the feature data after oversampling
 #' MyData$sample
 #' # print the label data after oversampling

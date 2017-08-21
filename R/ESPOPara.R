@@ -50,7 +50,7 @@ ESPOPara <- function(Me, V, D, P, N, R, M, NumToGen) {
   nGener <- R * NumToGen  # number of total samples needed be created
   
   cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
-  registerDoParallel(cl, cores = cores)
+  registerDoParallel(cl)
   seq <- foreach(cnt = 1:nGener, .combine = 'rbind') %dopar% {
     flag = TRUE
     #  genetare new positive data sequence until accepted upon Euclidean distance checking

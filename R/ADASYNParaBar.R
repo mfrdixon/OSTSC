@@ -55,12 +55,13 @@ ADASYNParaBar <- function(P, N, nTarget, k, m) {
     }
     # data generation
     nlen <- length(No)  # number of positive samples 
+    i <- 0
     cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
     registerDoSNOW(cl)
     pb <- txtProgressBar(min = 0, max = nlen, style = 3)  # progress bar
     progress <- function(n) setTxtProgressBar(pb, n)
     opts <- list(progress = progress)
-    # registerDoParallel(cl, cores = cores)
+    # registerDoParallel(cl)
     sample_ada <- foreach(i = 1:nlen, .combine = 'cbind', .options.snow = opts) %dopar% {
       if (No[i] != 0) {
         # k-NN
