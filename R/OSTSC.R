@@ -9,8 +9,8 @@
 #' @param label Labels corresponding to samples
 #' @param target_class The label of the class which need to be oversampled
 #' @param ratio Targeted positive samples number to achieve/negative samples number, with the default value 1
-#' @param Per Percentage of the mixing between SPO and ADASYN, with the default value 0.8
-#' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in EPSO, 
+#' @param Per Percentage of the mixing between ESPO and ADASYN, with the default value 0.8
+#' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in ESPO, 
 #'          with the default value 1
 #' @param k k-NN used in the ADASYN algorithm, with the default value 5
 #' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
@@ -45,9 +45,9 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   #   target_class: The label of the class which need to be oversampled.
   #   ratio:        Targeted positive samples number to achieve/negative samples number, 
   #                 with the default value 1.
-  #   Per:          Percentage of the mixing between EPSO and ADASYN, with the default value 0.8.
+  #   Per:          Percentage of the mixing between ESPO and ADASYN, with the default value 0.8.
   #   R:            An scalar ratio to tell in which level (towards the boundary) we shall push our 
-  #                 syntactic data in EPSO, with the default value 1.
+  #                 syntactic data in ESPO, with the default value 1.
   #   k:            k-NN used in the ADASYN algorithm, with the default value 5.
   #   m:            m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
   #   parallel:     Whether to run in parallel, with the default setting TRUE. (Recommend for dataset with over 30,000 records)
