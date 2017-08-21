@@ -9,7 +9,7 @@
 #'          with the default value 1
 #' @param M Scalar tells the reliable portion of the eigen spectrum
 #' @param NumToGen The number of samples to be generated
-#' @return sample_epso
+#' @return sample_espo
 #' @importFrom fields rdist 
 #' @importFrom MASS mvrnorm
 #' @importFrom parallel makeCluster stopCluster detectCores
