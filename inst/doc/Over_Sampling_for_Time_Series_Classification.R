@@ -1,68 +1,102 @@
 ## ---- echo=FALSE, message=FALSE------------------------------------------
 require(OSTSC)
-require(mxnet)
-require(caret)
-require(e1071)
+require(keras)
 require(pROC)
 
 ## ------------------------------------------------------------------------
 library(OSTSC)
-data(synthetic_control_TRAIN)
-data(synthetic_control_TEST)
+data(dataset_synthetic_control)
 
-train_label <- synthetic_control_TRAIN[, c(1)]
-train_sample <- synthetic_control_TRAIN[, -1]
-test_label <- synthetic_control_TEST[, c(1)]
-test_sample <- synthetic_control_TEST[, -1]
+train_label <- dataset_synthetic_control$train_y
+train_sample <- dataset_synthetic_control$train_x
+test_label <- dataset_synthetic_control$test_y
+test_sample <- dataset_synthetic_control$test_x
 
 ## ------------------------------------------------------------------------
 table(train_label)
 
 ## ---- results='hide'-----------------------------------------------------
-MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
+MyData <- OSTSC(train_sample, train_label, target_class = 1)
 over_sample <- MyData$sample
 over_label <- MyData$label
 
 ## ------------------------------------------------------------------------
 table(over_label)
 
-## ---- message=FALSE, warning=FALSE---------------------------------------
-mx.set.seed(0)
-model <- mx.mlp(as.matrix(train_sample), train_label, out_activation="softmax", 
-                hidden_node=10, out_node=2, num.round=10, array.batch.size=15, 
-                learning.rate=0.07, momentum=0.9, eval.metric=mx.metric.accuracy)
-preds <- predict(model, as.matrix(test_sample))
-pred_label <- max.col(t(preds))-1
-cm <- table(pred_label, test_label)
-
-## ---- message=FALSE, warning=FALSE---------------------------------------
-mx.set.seed(0)
-model_over <- mx.mlp(over_sample, over_label, out_activation="softmax", hidden_node=10, 
-                     out_node=2, num.round=10, array.batch.size=15, learning.rate=0.07,  
-                     momentum=0.9, eval.metric=mx.metric.accuracy)
-preds_over <- predict(model_over, as.matrix(test_sample))
-pred_label_over <- max.col(t(preds_over))-1
-cm_over <- table(pred_label_over, test_label)
-
 ## ------------------------------------------------------------------------
-fourfoldplot(cm, color = c("#FF0000", "#0000FF"), conf.level = 0, margin = 1, 
-             main = "Confusion Matrix (Before Oversampling)")
+library(keras)
+train_y <- to_categorical(train_label)
+test_y <- to_categorical(test_label)
+train_x <- array(train_sample, dim = c(dim(train_sample),1)) 
+test_x <- array(test_sample, dim = c(dim(test_sample),1)) 
+
+## ---- message=FALSE------------------------------------------------------
+model = keras_model_sequential()
+model %>%
+  layer_lstm(10, input_shape = c(60, 1)) %>%
+  layer_dense(2) %>%
+  layer_activation("softmax")
+model %>% compile(
+  loss = "categorical_crossentropy", 
+  optimizer = "adam", 
+  metrics = "accuracy"
+)
+lstm_before <- model %>% fit( 
+  x = train_x, 
+  y = train_y, 
+  validation_split = 0.1,
+  epochs = 20
+)
+plot(lstm_before)
+
+## ---- message=FALSE------------------------------------------------------
+score <- model %>% evaluate(test_x, test_y)
 
 ## ---- echo=FALSE---------------------------------------------------------
-cm
+cat("The loss value is", unlist(score[1]), ".\n")
+cat("The metric value (in this case 'accuracy') is", unlist(score[2]), ".\n")
 
 ## ------------------------------------------------------------------------
-fourfoldplot(cm_over, color = c("#FF0000", "#0000FF"), conf.level = 0, margin = 1, 
-             main = "Confusion Matrix (After Oversampling)")
+over_y <- to_categorical(over_label)
+over_x <- array(over_sample, dim = c(dim(over_sample),1)) 
+
+## ---- message=FALSE------------------------------------------------------
+model_over = keras_model_sequential()
+model_over %>%
+  layer_lstm(10, input_shape = c(60, 1)) %>%
+  layer_dense(2) %>%
+  layer_activation("softmax")
+model_over %>% compile(
+  loss = "categorical_crossentropy", 
+  optimizer = "adam", 
+  metrics = "accuracy"
+)
+lstm_after <- model_over %>% fit( 
+  x = over_x, 
+  y = over_y, 
+  validation_split = 0.1,
+  epochs = 20
+)
+plot(lstm_after)
+
+## ---- message=FALSE------------------------------------------------------
+score_over <- model_over %>% evaluate(test_x, test_y)
 
 ## ---- echo=FALSE---------------------------------------------------------
-cm_over
+cat("The loss value is", unlist(score_over[1]), ".\n")
+cat("The metric value (in this case 'accuracy') is", unlist(score_over[2]), ".\n")
 
 ## ------------------------------------------------------------------------
-auc(roc(test_label, pred_label))
+pred_label <- model %>% predict_classes(test_x)
+pred_label_over <- model_over %>% predict_classes(test_x)
+cm_before <- table(test_label, pred_label)
+cm_after <- table(test_label, pred_label_over)
 
-## ------------------------------------------------------------------------
-auc(roc(test_label, pred_label_over))
+## ---- echo=FALSE---------------------------------------------------------
+cat("The confusion matrix before oversampling: \n") 
+cm_before
+cat("The confusion matrix after oversampling: \n") 
+cm_after
 
 ## ------------------------------------------------------------------------
 plot.roc(test_label, pred_label, legacy.axes = TRUE, col = "blue", print.auc = TRUE,  
