@@ -44,13 +44,14 @@ Oversample a time series sequence imbalance data.
 This function balances a binary imbalance time series data.
 }
 \examples{
+# This is a simple example to show the usage. A more complex example is inside the vignette.
 # loading data
-data(synthetic_control_TRAIN)   
-# create feature and label data 
-label <- synthetic_control_TRAIN[, c(1)]
-sample <- synthetic_control_TRAIN[, -1] 
+data(dataset_synthetic_control)
+# get split feature and label data 
+train_label <- dataset_synthetic_control$train_y
+train_sample <- dataset_synthetic_control$train_x
 # oversample the class 1 to the same amount of class 0
-MyData <- OSTSC(sample, label, target_class = 1, parallel = FALSE)
+MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
 # print the feature data after oversampling
 MyData$sample
 # print the label data after oversampling
@@ -62,4 +63,3 @@ H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng,
             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
             vol. 25(12), pp. 2809-2822, 2013
 }
-

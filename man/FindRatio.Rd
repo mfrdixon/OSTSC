@@ -20,4 +20,3 @@ ratio
 Find the distribution of the positive data.
 }
 \keyword{internal}
-
