@@ -33,8 +33,8 @@ test_x <- array(test_sample, dim = c(dim(test_sample),1))
 ## ---- message=FALSE------------------------------------------------------
 model = keras_model_sequential()
 model %>%
-  layer_lstm(10, input_shape = c(60, 1)) %>%
-  layer_dense(2) %>%
+  layer_lstm(10, input_shape = c(dim(train_x)[2], dim(train_x)[3])) %>%
+  layer_dense(dim(train_y)[2]) %>%
   layer_activation("softmax")
 model %>% compile(
   loss = "categorical_crossentropy", 
@@ -63,8 +63,8 @@ over_x <- array(over_sample, dim = c(dim(over_sample),1))
 ## ---- message=FALSE------------------------------------------------------
 model_over = keras_model_sequential()
 model_over %>%
-  layer_lstm(10, input_shape = c(60, 1)) %>%
-  layer_dense(2) %>%
+  layer_lstm(10, input_shape = c(dim(over_x)[2], dim(over_x)[3])) %>%
+  layer_dense(dim(over_y)[2]) %>%
   layer_activation("softmax")
 model_over %>% compile(
   loss = "categorical_crossentropy", 
