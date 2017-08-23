@@ -11,13 +11,13 @@ library(OSTSC)
 
 # Start the function
 #### #loading data
-data(synthetic_control_TRAIN)   
-#### #create feature and label data 
-label <- synthetic_control_TRAIN[, c(1)]      
+data(dataset_synthetic_control)  
+#### #get split feature and label data 
+train_label <- dataset_synthetic_control$train_y      
 
-sample <- synthetic_control_TRAIN[, -1]  
+train_sample <- dataset_synthetic_control$train_x  
 #### #oversample the class 1 to the same amount of class 0
-MyData <- OSTSC(sample, label, target_class = 1)
+MyData <- OSTSC(train_sample, train_label, target_class = 1)
 #### #print the feature data after oversampling
 MyData$sample
 #### #print the label data after oversampling
