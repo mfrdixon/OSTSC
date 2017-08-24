@@ -29,7 +29,9 @@ Suggests:
     rmarkdown,
     keras,
     pROC,
-    devtools
+    devtools,
+    testthat,
+    xts
 VignetteBuilder: knitr
 NeedsCompilation: no
 Packaged: 2017-08-09 22:49:19 UTC; weilan

@@ -50,12 +50,20 @@ data(dataset_synthetic_control)
 # get split feature and label data 
 train_label <- dataset_synthetic_control$train_y
 train_sample <- dataset_synthetic_control$train_x
+# the first dimension of feature and label shall be the same
+# the second dimention of feature is the time sequence length
+dim(train_sample)
+dim(train_label)
+# check the imbalance of the data
+table(train_label)
 # oversample the class 1 to the same amount of class 0
 MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
-# print the feature data after oversampling
-MyData$sample
-# print the label data after oversampling
-MyData$label
+# store the feature data after oversampling
+x <- MyData$sample
+# store the label data after oversampling
+y <- MyData$label
+# check the imbalance of the data
+table(y)
 }
 \references{
 H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng, 

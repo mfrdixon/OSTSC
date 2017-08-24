@@ -30,12 +30,20 @@
 #' # get split feature and label data 
 #' train_label <- dataset_synthetic_control$train_y
 #' train_sample <- dataset_synthetic_control$train_x
+#' # the first dimension of feature and label shall be the same
+#' # the second dimention of feature is the time sequence length
+#' dim(train_sample)
+#' dim(train_label)
+#' # check the imbalance of the data
+#' table(train_label)
 #' # oversample the class 1 to the same amount of class 0
 #' MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
-#' # print the feature data after oversampling
-#' MyData$sample
-#' # print the label data after oversampling
-#' MyData$label
+#' # store the feature data after oversampling
+#' x <- MyData$sample
+#' # store the label data after oversampling
+#' y <- MyData$label
+#' # check the imbalance of the data
+#' table(y)
 
 OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 15, parallel = TRUE, progBar = TRUE) {
   # Oversample a time series sequence imbalance data.
@@ -57,6 +65,11 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   # Returns:
   #   The oversampled dataset samples data_list$sample and labels data_list$label.
   
+  # check if the input sample data had two dimension
+  if (is.null(dim(sample)) || length(dim(sample)) != 2) {
+    stop ("The input sample data must have two dimensions.")
+  }
+  
   # check if the numbers of records in label and sample matched
   if (is.null(dim(label))) {
     sizeLabel <- length(label)
@@ -64,14 +77,11 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
     sizeLabel <- dim(label)[1]
   }
   
-  if (is.null(dim(sample))) {
-    sizeSample <- length(sample)
-  } else {
     sizeSample <- dim(sample)[1]
-  }
   
   if (sizeLabel != sizeSample) {
-    stop ("Number of time series sequences provided in sample do not match the number of classes provided in label.")
+    stop ("Number of time series sequences provided in sample do not match the number of classes provided 
+          in label. Check dimensions.")
   }
   
   # check if the target_class input is in the numeric format
@@ -79,71 +89,96 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
     stop ("The parameter target_class is not in correct format, which must be a numeric value.")
   }  
   
-  # check if the target_class input is only one element
-  if (length(target_class) != 1) {
-    stop ("The parameter target_class is not in correct format, which must be a single value.")
-  }
-  
   # check if the ratio input is in the numeric format
   if (!is.numeric(ratio)) {
     stop ("The parameter ratio is not in correct format, which must be a numeric value.")
   }    
   
-  # check if the ratio input is in range (0,1]
-  if (ratio > 1 || ratio <= 0) {
-    stop ("The parameter ratio is not in correct range, which must be betwwen 0 to 1, including 1.")
-  }
-  
   # check if the Percentage input is in the numeric format
   if (!is.numeric(Per)) {
     stop ("The parameter Per is not in correct format, which must be a numeric value.")
-  }  
-  
-  # check if the Percentage input is in range [0,1]
-  if (Per > 1 || Per < 0) {
-    stop ("The parameter Per is not in correct range, which must be betwwen 0 to 1, including 0 and 1.")
-  }
+  } 
   
   # check if the R input is in the numeric format
   if (!is.numeric(R)) {
     stop ("The parameter R is not in correct format, which must be a numeric value.")
-  } 
+  }
+   
+  # check if the k input is in the numeric format
+  if (!is.numeric(k)) {
+    stop ("The parameter k is not in correct format, which must be a numeric value.")
+  }
+   
+  # check if the m input is in the numeric format
+  if (!is.numeric(m)) {
+    stop ("The parameter m is not in correct format, which must be a numeric value.")
+  }
+    
+  # check if the target_class input is only one element
+  if (length(target_class) != 1) {
+    stop ("The parameter target_class is not in correct format, which must be a single value.")
+  }
   
+  # check if the ratio input is only one element
+  if (length(ratio) != 1) {
+    stop ("The parameter ratio is not in correct format, which must be a single value.")
+  }
+  
+  # check if the Per input is only one element
+  if (length(Per) != 1) {
+    stop ("The parameter Per is not in correct format, which must be a single value.")
+  }
+    
+  # check if the R input is only one element
+  if (length(R) != 1) {
+    stop ("The parameter R is not in correct format, which must be a single value.")
+  }
+    
+  # check if the k input is only one element
+  if (length(k) != 1) {
+    stop ("The parameter k is not in correct format, which must be a single value.")
+  }
+    
+  # check if the m input is only one element
+  if (length(m) != 1) {
+    stop ("The parameter m is not in correct format, which must be a single value.")
+  }
+  
+  # check if the ratio input is in range (0,1]
+  if (ratio > 1 || ratio <= 0) {
+    stop ("The parameter ratio is not in correct range, which must be betwwen 0 to 1, including 1.")
+  }
+    
+  # check if the Percentage input is in range [0,1]
+  if (Per > 1 || Per < 0) {
+    stop ("The parameter Per is not in correct range, which must be betwwen 0 to 1, including 0 and 1.")
+  }
+    
   # check if the R input is in range [1,+oo)
   if (R < 1) {
     stop ("The parameter R is not in correct range, which must be larger or equal to 1.")
   }
-  
-  # check if the k input is in the numeric format
-  if (!is.numeric(k)) {
-    stop ("The parameter k is not in correct format, which must be a numeric value.")
-  }  
-  
-  # check if the k input is an integer
-  if (k %% 1 != 0) {
-    stop ("The parameter k is not in correct format, which must be an integer.")
-  }
-
+    
   # check if the k input is in range (0,+oo)
   if (k <= 0) {
     stop ("The parameter k is not in correct range, which must be larger than 0.")
   }
-  
-  # check if the m input is in the numeric format
-  if (!is.numeric(m)) {
-    stop ("The parameter m is not in correct format, which must be a numeric value.")
-  }  
-  
-  # check if the m input is an integer
-  if (m%%1 != 0) {
-    stop ("The parameter m is not in correct format, which must be an integer.")
-  }
-
+    
   # check if the m input is in range (0,+oo)
   if (m <= 0) {
     stop ("The parameter m is not in correct range, which must be larger than 0.")
   }
-  
+    
+  # check if the k input is an integer
+  if (k %% 1 != 0) {
+    stop ("The parameter k is not in correct format, which must be an integer.")
+  }
+    
+  # check if the m input is an integer
+  if (m%%1 != 0) {
+    stop ("The parameter m is not in correct format, which must be an integer.")
+  }
+    
   # check if the parallel input is a boolean value
   if (!(identical(parallel, FALSE) || identical(parallel, TRUE))) {
     stop ("The parameter parallel is not in correct format, which must be a boolean value.")
