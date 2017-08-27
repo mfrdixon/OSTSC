@@ -4,7 +4,7 @@
 #' while class 0 aims to Cyclic, Increasing trend, Decreasing trend, Upward shift and Downward shift. In this package, the 
 #' imbalance of class 1 and 0 has been set 1:50 in the training dataset.
 #'
-#' @format A time series data with sequence length 60 and observations number 255. 
+#' @format A time series data with sequence length 60 and observations number 555. 
 #' \describe{
 #'   The train_y and test_y contain the class label (1 or 0)
 #'   The train_x and test_x contain time series sequences (in numeric)
