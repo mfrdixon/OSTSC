@@ -86,71 +86,70 @@ dataset_MHEALTH <- function() {
   mHealth_subject8 <- rio::import("https://github.com/lweicdsor/GSoC2017/raw/master/MHEALTH/mHealth_subject8.rda")
   mHealth_subject9 <- rio::import("https://github.com/lweicdsor/GSoC2017/raw/master/MHEALTH/mHealth_subject9.rda")
   mHealth_subject10 <- rio::import("https://github.com/lweicdsor/GSoC2017/raw/master/MHEALTH/mHealth_subject10.rda")
-  # keep only feature 5
-  mHealth_subject1 <- mHealth_subject1[,c(5,24)]
-  mHealth_subject2 <- mHealth_subject2[,c(5,24)]
-  mHealth_subject3 <- mHealth_subject3[,c(5,24)]
-  mHealth_subject4 <- mHealth_subject4[,c(5,24)]
-  mHealth_subject5 <- mHealth_subject5[,c(5,24)]
-  mHealth_subject6 <- mHealth_subject6[,c(5,24)]
-  mHealth_subject7 <- mHealth_subject7[,c(5,24)]
-  mHealth_subject8 <- mHealth_subject8[,c(5,24)]
-  mHealth_subject9 <- mHealth_subject9[,c(5,24)]
-  mHealth_subject10 <- mHealth_subject10[,c(5,24)]
+  # keep only feature 12
+  mHealth_subject1 <- mHealth_subject1[, c(12, 24)]
+  mHealth_subject2 <- mHealth_subject2[, c(12, 24)]
+  mHealth_subject3 <- mHealth_subject3[, c(12, 24)]
+  mHealth_subject4 <- mHealth_subject4[, c(12, 24)]
+  mHealth_subject5 <- mHealth_subject5[, c(12, 24)]
+  mHealth_subject6 <- mHealth_subject6[, c(12, 24)]
+  mHealth_subject7 <- mHealth_subject7[, c(12, 24)]
+  mHealth_subject8 <- mHealth_subject8[, c(12, 24)]
+  mHealth_subject9 <- mHealth_subject9[, c(12, 24)]
+  mHealth_subject10 <- mHealth_subject10[, c(12, 24)]
   # set class 11 as positive class
-  p1 <- mHealth_subject1[which(mHealth_subject1[, c(2)] == 11), ][,c(1)]
-  p2 <- mHealth_subject2[which(mHealth_subject2[, c(2)] == 11), ][,c(1)]
-  p3 <- mHealth_subject3[which(mHealth_subject3[, c(2)] == 11), ][,c(1)]
-  p4 <- mHealth_subject4[which(mHealth_subject4[, c(2)] == 11), ][,c(1)]
-  p5 <- mHealth_subject5[which(mHealth_subject5[, c(2)] == 11), ][,c(1)]
-  p6 <- mHealth_subject6[which(mHealth_subject6[, c(2)] == 11), ][,c(1)]
-  p7 <- mHealth_subject7[which(mHealth_subject7[, c(2)] == 11), ][,c(1)]
-  p8 <- mHealth_subject8[which(mHealth_subject8[, c(2)] == 11), ][,c(1)]
-  p9 <- mHealth_subject9[which(mHealth_subject9[, c(2)] == 11), ][,c(1)]
-  p10 <- mHealth_subject10[which(mHealth_subject10[, c(2)] == 11), ][,c(1)]
+  p1 <- mHealth_subject1[which(mHealth_subject1[, c(2)] == 11), ][, c(1)]
+  p2 <- mHealth_subject2[which(mHealth_subject2[, c(2)] == 11), ][, c(1)]
+  p3 <- mHealth_subject3[which(mHealth_subject3[, c(2)] == 11), ][, c(1)]
+  p4 <- mHealth_subject4[which(mHealth_subject4[, c(2)] == 11), ][, c(1)]
+  p5 <- mHealth_subject5[which(mHealth_subject5[, c(2)] == 11), ][, c(1)]
+  p6 <- mHealth_subject6[which(mHealth_subject6[, c(2)] == 11), ][, c(1)]
+  p7 <- mHealth_subject7[which(mHealth_subject7[, c(2)] == 11), ][, c(1)]
+  p8 <- mHealth_subject8[which(mHealth_subject8[, c(2)] == 11), ][, c(1)]
+  p9 <- mHealth_subject9[which(mHealth_subject9[, c(2)] == 11), ][, c(1)]
+  p10 <- mHealth_subject10[which(mHealth_subject10[, c(2)] == 11), ][, c(1)]
   # form time series sequences as length 30
-  p1 <- matrix(p1[1:(30*round(length(p1)/30))],ncol=30,byrow=T)
-  p2 <- matrix(p2[1:(30*round(length(p2)/30))],ncol=30,byrow=T)
-  p3 <- matrix(p3[1:(30*round(length(p3)/30))],ncol=30,byrow=T)
-  p4 <- matrix(p4[1:(30*round(length(p4)/30))],ncol=30,byrow=T)
-  p5 <- matrix(p5[1:(30*round(length(p5)/30))],ncol=30,byrow=T)
-  p6 <- matrix(p6[1:(30*round(length(p6)/30))],ncol=30,byrow=T)
-  p7 <- matrix(p7[1:(30*round(length(p7)/30))],ncol=30,byrow=T)
-  p8 <- matrix(p8[1:(30*round(length(p8)/30))],ncol=30,byrow=T)
-  p9 <- matrix(p9[1:(30*round(length(p9)/30))],ncol=30,byrow=T)
-  p10 <- matrix(p10[1:(30*round(length(p10)/30))],ncol=30,byrow=T)
+  p1 <- matrix(p1[1:(30*round(length(p1)/30))], ncol=30, byrow=T)
+  p2 <- matrix(p2[1:(30*round(length(p2)/30))], ncol=30, byrow=T)
+  p3 <- matrix(p3[1:(30*round(length(p3)/30))], ncol=30, byrow=T)
+  p4 <- matrix(p4[1:(30*round(length(p4)/30))], ncol=30, byrow=T)
+  p5 <- matrix(p5[1:(30*round(length(p5)/30))], ncol=30, byrow=T)
+  p6 <- matrix(p6[1:(30*round(length(p6)/30))], ncol=30, byrow=T)
+  p7 <- matrix(p7[1:(30*round(length(p7)/30))], ncol=30, byrow=T)
+  p8 <- matrix(p8[1:(30*round(length(p8)/30))], ncol=30, byrow=T)
+  p9 <- matrix(p9[1:(30*round(length(p9)/30))], ncol=30, byrow=T)
+  p10 <- matrix(p10[1:(30*round(length(p10)/30))],ncol=30, byrow=T)
   # p <- rbind(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)
   # only use subject 1-5
   p <- rbind(p1, p2, p3, p4, p5)
   # set other classes as negative class
-  n1 <- mHealth_subject1[which(mHealth_subject1[, c(2)] != 11), ][,c(1)]
-  n2 <- mHealth_subject2[which(mHealth_subject2[, c(2)] != 11), ][,c(1)]
-  n3 <- mHealth_subject3[which(mHealth_subject3[, c(2)] != 11), ][,c(1)]
-  n4 <- mHealth_subject4[which(mHealth_subject4[, c(2)] != 11), ][,c(1)]
-  n5 <- mHealth_subject5[which(mHealth_subject5[, c(2)] != 11), ][,c(1)]
-  n6 <- mHealth_subject6[which(mHealth_subject6[, c(2)] != 11), ][,c(1)]
-  n7 <- mHealth_subject7[which(mHealth_subject7[, c(2)] != 11), ][,c(1)]
-  n8 <- mHealth_subject8[which(mHealth_subject8[, c(2)] != 11), ][,c(1)]
-  n9 <- mHealth_subject9[which(mHealth_subject9[, c(2)] != 11), ][,c(1)]
-  n10 <- mHealth_subject10[which(mHealth_subject10[, c(2)] != 11), ][,c(1)]
+  n1 <- mHealth_subject1[which(mHealth_subject1[, c(2)] != 11), ][, c(1)]
+  n2 <- mHealth_subject2[which(mHealth_subject2[, c(2)] != 11), ][, c(1)]
+  n3 <- mHealth_subject3[which(mHealth_subject3[, c(2)] != 11), ][, c(1)]
+  n4 <- mHealth_subject4[which(mHealth_subject4[, c(2)] != 11), ][, c(1)]
+  n5 <- mHealth_subject5[which(mHealth_subject5[, c(2)] != 11), ][, c(1)]
+  n6 <- mHealth_subject6[which(mHealth_subject6[, c(2)] != 11), ][, c(1)]
+  n7 <- mHealth_subject7[which(mHealth_subject7[, c(2)] != 11), ][, c(1)]
+  n8 <- mHealth_subject8[which(mHealth_subject8[, c(2)] != 11), ][, c(1)]
+  n9 <- mHealth_subject9[which(mHealth_subject9[, c(2)] != 11), ][, c(1)]
+  n10 <- mHealth_subject10[which(mHealth_subject10[, c(2)] != 11), ][, c(1)]
   # form sequences
-  n1 <- matrix(n1[1:(30*round(length(n1)/30))],ncol=30,byrow=T)
-  n2 <- matrix(n2[1:(30*round(length(n2)/30))],ncol=30,byrow=T)
-  n3 <- matrix(n3[1:(30*round(length(n3)/30))],ncol=30,byrow=T)
-  n4 <- matrix(n4[1:(30*round(length(n4)/30))],ncol=30,byrow=T)
-  n5 <- matrix(n5[1:(30*round(length(n5)/30))],ncol=30,byrow=T)
-  n6 <- matrix(n6[1:(30*round(length(n6)/30))],ncol=30,byrow=T)
-  n7 <- matrix(n7[1:(30*round(length(n7)/30))],ncol=30,byrow=T)
-  n8 <- matrix(n8[1:(30*round(length(n8)/30))],ncol=30,byrow=T)
-  n9 <- matrix(n9[1:(30*round(length(n9)/30))],ncol=30,byrow=T)
-  n10 <- matrix(n10[1:(30*round(length(n10)/30))],ncol=30,byrow=T)
+  n1 <- matrix(n1[1:(30*round(length(n1)/30))], ncol=30, byrow=T)
+  n2 <- matrix(n2[1:(30*round(length(n2)/30))], ncol=30, byrow=T)
+  n3 <- matrix(n3[1:(30*round(length(n3)/30))], ncol=30, byrow=T)
+  n4 <- matrix(n4[1:(30*round(length(n4)/30))], ncol=30, byrow=T)
+  n5 <- matrix(n5[1:(30*round(length(n5)/30))], ncol=30, byrow=T)
+  n6 <- matrix(n6[1:(30*round(length(n6)/30))], ncol=30, byrow=T)
+  n7 <- matrix(n7[1:(30*round(length(n7)/30))], ncol=30, byrow=T)
+  n8 <- matrix(n8[1:(30*round(length(n8)/30))], ncol=30, byrow=T)
+  n9 <- matrix(n9[1:(30*round(length(n9)/30))], ncol=30, byrow=T)
+  n10 <- matrix(n10[1:(30*round(length(n10)/30))], ncol=30, byrow=T)
   #n <- rbind(n1, n2, n3, n4, n5, n6, n7, n8, n9, n10)
   # only use subject 1-5
   n <- rbind(n1, n2, n3, n4, n5)
   #remove NA
   p <- matrix(suppressWarnings(as.numeric(p)), nrow = nrow(p))
   p <- na.omit(p)
-
   n <- matrix(suppressWarnings(as.numeric(n)), nrow = nrow(n))
   n <- na.omit(n)
   #split training and testing data
@@ -158,8 +157,8 @@ dataset_MHEALTH <- function() {
   num_n <- round(nrow(n)/2)
   train_x <- rbind(p[1:num_p, ], n[1:num_n, ])
   test_x <- rbind(p[(num_p+1):nrow(p), ], n[(num_n+1):nrow(n), ])
-  train_y <- rbind(matrix(1,num_p,1),matrix(0,num_n,1))
-  test_y <- rbind(matrix(1,nrow(p)-num_p,1),matrix(0,nrow(n)-num_n,1))
+  train_y <- rbind(matrix(1, num_p,1), matrix(0, num_n,1))
+  test_y <- rbind(matrix(1, nrow(p)-num_p, 1), matrix(0, nrow(n)-num_n, 1))
   # form data
   dataset_MHEALTH <- list("train_x" = train_x, "train_y" = train_y, "test_x" = test_x, "test_y" = test_y)
   # save data
