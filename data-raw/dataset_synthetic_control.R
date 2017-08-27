@@ -13,8 +13,8 @@
 #' 
 #' @docType data
 #' @keywords datasets
-#' @name dataset_synthetic_control
-#' @usage data(dataset_synthetic_control)
+#' @name synthetic_control
+#' @usage data(synthetic_control)
 #' @source \url{https://archive.ics.uci.edu/ml/datasets/Synthetic+Control+Chart+Time+Series}
 
 dataset_synthetic_control <- function() {
@@ -30,7 +30,7 @@ dataset_synthetic_control <- function() {
   train_x <- matrix(unlist(train_x), ncol = ncol(train_x))
   test_x <- matrix(unlist(test_x), ncol = ncol(test_x))
   # form data
-  dataset_synthetic_control <- list("train_x" = train_x, "train_y" = train_y, "test_x" = test_x, "test_y" = test_y)
+  synthetic_control <- list("train_x" = train_x, "train_y" = train_y, "test_x" = test_x, "test_y" = test_y)
   # save data
-  devtools::use_data(dataset_synthetic_control)
+  devtools::use_data(synthetic_control)
 }
