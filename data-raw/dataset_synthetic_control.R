@@ -13,8 +13,8 @@
 #' 
 #' @docType data
 #' @keywords datasets
-#' @name data_synthetic_control
-#' @usage data(data_synthetic_control)
+#' @name dataset_synthetic_control
+#' @usage data(dataset_synthetic_control)
 #' @source \url{https://archive.ics.uci.edu/ml/datasets/Synthetic+Control+Chart+Time+Series}
 
 dataset_synthetic_control <- function() {
