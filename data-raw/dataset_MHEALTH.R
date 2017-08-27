@@ -62,8 +62,8 @@
 #' 
 #' @docType data
 #' @keywords datasets
-#' @name dataset_MHEALTH
-#' @usage data(dataset_MHEALTH)
+#' @name MHEALTH
+#' @usage data(MHEALTH)
 #' @references Banos, O., Garcia, R., Holgado, J. A., Damas, M., Pomares, H., Rojas, I., Saez, A., Villalonga, C. 
 #'             mHealthDroid: a novel framework for agile development of mobile health applications. 
 #'             Proceedings of the 6th International Work-conference on Ambient Assisted Living an Active Ageing (IWAAL 2014), 
@@ -160,7 +160,7 @@ dataset_MHEALTH <- function() {
   train_y <- rbind(matrix(1, num_p,1), matrix(0, num_n,1))
   test_y <- rbind(matrix(1, nrow(p)-num_p, 1), matrix(0, nrow(n)-num_n, 1))
   # form data
-  dataset_MHEALTH <- list("train_x" = train_x, "train_y" = train_y, "test_x" = test_x, "test_y" = test_y)
+  MHEALTH <- list("train_x" = train_x, "train_y" = train_y, "test_x" = test_x, "test_y" = test_y)
   # save data
-  devtools::use_data(dataset_MHEALTH)
+  devtools::use_data(MHEALTH)
 }
