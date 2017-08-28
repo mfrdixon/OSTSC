@@ -5,10 +5,12 @@
 #'             "Integrated Oversampling for Imbalanced Time Series Classification" 
 #'             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
 #'             vol. 25(12), pp. 2809-2822, 2013
+#'             
 #'             H. Cao, V. Y. F. Tan and J. Z. F. Pang, 
 #'             "A Parsimonious Mixture of Gaussian Trees Model for Oversampling in Imbalanced and Multi-Modal Time-Series Classification" 
 #'             IEEE Trans. on Neural Network and Learning System (TNNLS), 
 #'             vol. 25(12), pp. 2226-2239, 2014
+#'             
 #'             H. Cao, X. L. Li, Y. K. Woon and S. K. Ng, 
 #'             "SPO: Structure Preserving Oversampling for Imbalanced Time Series Classification" 
 #'             Proc. IEEE Int. Conf. on Data Mining ICDM, 
@@ -16,8 +18,7 @@
 #' @param sample Univariate sequence data samples
 #' @param label Labels corresponding to samples
 #' @param class The number of the class which need to be oversampled, starting from the class with least observations, 
-#'              with the default setting to as most as possible. When multiple classes has same number of observations,
-#'              the class with numeric smaller label has the precedence.
+#'              with the default setting to as most as possible. 
 #' @param ratio Targeted positive samples number to achieve/negative samples number, with the default value 1
 #' @param Per Percentage of the mixing between ESPO and ADASYN, with the default value 0.8
 #' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in ESPO, 
@@ -62,8 +63,7 @@ OSTSC <- function(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 
   #   sample:       Univariate sequence data samples.
   #   label:        Labels corresponding to samples.
   #   class:        The number of the class which need to be oversampled, starting from the class with least observations,
-  #                 with the default setting to as most as possible. When multiple classes has same number of observations,
-  #                 the class with numeric smaller label has the precedence.
+  #                 with the default setting to as most as possible. 
   #   ratio:        Targeted positive samples number to achieve/negative samples number, 
   #                 with the default value 1.
   #   Per:          Percentage of the mixing between ESPO and ADASYN, with the default value 0.8.
