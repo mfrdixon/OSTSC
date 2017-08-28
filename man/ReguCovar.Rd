@@ -4,10 +4,10 @@
 \alias{ReguCovar}
 \title{Generate samples by ESPO and ADASYN.}
 \usage{
-ReguCovar(data, target_class, ratio, R, Per, k, m, parallel, progBar)
+ReguCovar(cleanData, target_class, ratio, R, Per, k, m, parallel, progBar)
 }
 \arguments{
-\item{data}{First column is label data, rest is sample data}
+\item{cleanData}{First column is label data, rest is sample data, without NA, NaN values}
 
 \item{target_class}{The class needs to be oversampled}
 
