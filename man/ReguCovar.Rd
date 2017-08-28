@@ -4,14 +4,14 @@
 \alias{ReguCovar}
 \title{Generate samples by ESPO and ADASYN.}
 \usage{
-ReguCovar(P, N, nTarget, R, Per, k, m, parallel, progBar)
+ReguCovar(data, target_class, ratio, R, Per, k, m, parallel, progBar)
 }
 \arguments{
-\item{P}{Minority class samples}
+\item{data}{First column is label data, rest is sample data}
 
-\item{N}{Majority class samples}
+\item{target_class}{The class needs to be oversampled}
 
-\item{nTarget}{The targeted number of samples to achieve}
+\item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1.}
 
 \item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
 with the default value 1}
@@ -22,14 +22,16 @@ with the default value 1}
 
 \item{m}{m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15}
 
-\item{parallel}{Whether to run in parallel, with the default setting TRUE (Recommend for dataset with over 30,000 records)}
+\item{parallel}{Whether to run in parallel, with the default setting TRUE 
+(Recommend for dataset with over 30,000 records)}
 
 \item{progBar}{Whether to include progress bars, with the default setting TRUE}
 }
 \value{
-myData
+newData
 }
 \description{
 Generate samples by ESPO and ADASYN.
 }
 \keyword{internal}
+

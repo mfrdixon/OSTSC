@@ -5,9 +5,19 @@
 #'             "Integrated Oversampling for Imbalanced Time Series Classification" 
 #'             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
 #'             vol. 25(12), pp. 2809-2822, 2013
+#'             H. Cao, V. Y. F. Tan and J. Z. F. Pang, 
+#'             "A Parsimonious Mixture of Gaussian Trees Model for Oversampling in Imbalanced and Multi-Modal Time-Series Classification" 
+#'             IEEE Trans. on Neural Network and Learning System (TNNLS), 
+#'             vol. 25(12), pp. 2226-2239, 2014
+#'             H. Cao, X. L. Li, Y. K. Woon and S. K. Ng, 
+#'             "SPO: Structure Preserving Oversampling for Imbalanced Time Series Classification" 
+#'             Proc. IEEE Int. Conf. on Data Mining ICDM, 
+#'             pp. 1008-1013, 2011
 #' @param sample Univariate sequence data samples
 #' @param label Labels corresponding to samples
-#' @param target_class The label of the class which need to be oversampled
+#' @param class The number of the class which need to be oversampled, starting from the class with least observations, 
+#'              with the default setting to as most as possible. When multiple classes has same number of observations,
+#'              the class with numeric smaller label has the precedence.
 #' @param ratio Targeted positive samples number to achieve/negative samples number, with the default value 1
 #' @param Per Percentage of the mixing between ESPO and ADASYN, with the default value 0.8
 #' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in ESPO, 
@@ -37,7 +47,7 @@
 #' # check the imbalance of the data
 #' table(train_label)
 #' # oversample the class 1 to the same amount of class 0
-#' MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
+#' MyData <- OSTSC(train_sample, train_label, parallel = FALSE)
 #' # store the feature data after oversampling
 #' x <- MyData$sample
 #' # store the label data after oversampling
@@ -45,13 +55,15 @@
 #' # check the imbalance of the data
 #' table(y)
 
-OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 15, parallel = TRUE, progBar = TRUE) {
+OSTSC <- function(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 15, parallel = TRUE, progBar = TRUE) {
   # Oversample a time series sequence imbalance data.
   #
   # Args:
   #   sample:       Univariate sequence data samples.
   #   label:        Labels corresponding to samples.
-  #   target_class: The label of the class which need to be oversampled.
+  #   class:        The number of the class which need to be oversampled, starting from the class with least observations,
+  #                 with the default setting to as most as possible. When multiple classes has same number of observations,
+  #                 the class with numeric smaller label has the precedence.
   #   ratio:        Targeted positive samples number to achieve/negative samples number, 
   #                 with the default value 1.
   #   Per:          Percentage of the mixing between ESPO and ADASYN, with the default value 0.8.
@@ -84,9 +96,9 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
           in label. Check dimensions.")
   }
   
-  # check if the target_class input is in the numeric format
-  if (!is.numeric(target_class)) {
-    stop ("The parameter target_class is not in correct format, which must be a numeric value.")
+  # check if the class input is in the numeric format
+  if (!missing(class) && !is.numeric(class)) {
+    stop ("The parameter class is not in correct format, which must be a numeric value.")
   }  
   
   # check if the ratio input is in the numeric format
@@ -114,9 +126,9 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
     stop ("The parameter m is not in correct format, which must be a numeric value.")
   }
     
-  # check if the target_class input is only one element
-  if (length(target_class) != 1) {
-    stop ("The parameter target_class is not in correct format, which must be a single value.")
+  # check if the class input is only one element
+  if (!missing(class) && length(class) != 1) {
+    stop ("The parameter class is not in correct format, which must be a single value.")
   }
   
   # check if the ratio input is only one element
@@ -197,29 +209,50 @@ OSTSC <- function(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 
   fullData <- matrix(suppressWarnings(as.numeric(fullData)), nrow = nrow(fullData))
   cleanData <- na.omit(fullData)
   
-  # form positive (target class) data and negative data
-  # The negative data is formed using a one-vs-rest manner.
-  Positive <- cleanData[which(cleanData[, c(1)] == target_class), ]
+  # determine how many classes need to be oversampled
+  Lab <- cleanData[, c(1)]
+  claTab <- as.data.frame(table(Lab))  # count frequency of classes
+  claTab <- claTab[order(claTab$Freq), ]  # order in ascending
   
-  if (nrow(Positive) == 0) {
-    stop ("The target_class does not exist in the input label.")  # check if Positive dataset is empty
+  sumFreq <- sum(claTab$Freq)
+  
+  count <- 0
+  for (i in 1:dim(claTab)[1]) {
+    if (sumFreq - claTab$Freq[i] > claTab$Freq[i]) {
+      count <- count + 1
+    }
   }
   
-  Negative <- cleanData[which(cleanData[, c(1)] != target_class), ]
+  if (count == 0) {
+    stop ("The input dataset is balanced. No need to do oversample.")
+  }
   
-  P <- Positive[, -1]  # remove label column
-  N <- Negative[, -1]
+  if (missing(class)) {
+    class <- count
+  } 
   
-  # Number of sequences needed to be created
-  nTarget <- nrow(N)*ratio
+  if (count < class) {
+    warning ("No enough minority classes, class number need to be oversampled is set to ", count)
+  }
   
-  # oversampling
-  myData <- ReguCovar(P, N, nTarget, R, Per, k, m, parallel, progBar)
+  myData <- list()
+  for (i in 1:class) {
+    target_class <- as.numeric(as.vector(claTab$Lab[i]))
+    newData <- ReguCovar(cleanData, target_class, ratio, R, Per, k, m, parallel, progBar)
+    myData <- rbind(myData, newData)
+  }
+  myData <- matrix(unlist(myData), ncol=ncol(myData))
   
-  # form new data
-  data_target_class <- cbind(matrix(target_class, nTarget, 1), myData)
-  data_new <- rbind(data_target_class, Negative)
-  # data_new <- data_target_class
+  nData <- list()
+  for (i in (class + 1):dim(claTab)[1]) {
+    target_class <- as.numeric(as.vector(claTab$Lab[i]))
+    nega <- cleanData[which(cleanData[, c(1)] == target_class), ]
+    nData <- rbind(nData, nega)
+  }
+  
+  # form data
+  data_new <- rbind(myData, nData)
+  
   data_x <- data_new[, -1]
   data_y <- data_new[, c(1)]
   data_list <- list("sample" = data_x, "label" = data_y)

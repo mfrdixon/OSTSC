@@ -4,7 +4,7 @@
 \alias{OSTSC}
 \title{Over Sampling for Time Series Classification}
 \usage{
-OSTSC(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5,
+OSTSC(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5,
   m = 15, parallel = TRUE, progBar = TRUE)
 }
 \arguments{
@@ -12,7 +12,9 @@ OSTSC(sample, label, target_class, ratio = 1, Per = 0.8, R = 1, k = 5,
 
 \item{label}{Labels corresponding to samples}
 
-\item{target_class}{The label of the class which need to be oversampled}
+\item{class}{The number of the class which need to be oversampled, starting from the class with least observations, 
+with the default setting to as most as possible. When multiple classes has same number of observations,
+the class with numeric smaller label has the precedence.}
 
 \item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1}
 
@@ -57,7 +59,7 @@ dim(train_label)
 # check the imbalance of the data
 table(train_label)
 # oversample the class 1 to the same amount of class 0
-MyData <- OSTSC(train_sample, train_label, target_class = 1, parallel = FALSE)
+MyData <- OSTSC(train_sample, train_label, parallel = FALSE)
 # store the feature data after oversampling
 x <- MyData$sample
 # store the label data after oversampling
@@ -70,4 +72,13 @@ H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng,
             "Integrated Oversampling for Imbalanced Time Series Classification" 
             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
             vol. 25(12), pp. 2809-2822, 2013
+            H. Cao, V. Y. F. Tan and J. Z. F. Pang, 
+            "A Parsimonious Mixture of Gaussian Trees Model for Oversampling in Imbalanced and Multi-Modal Time-Series Classification" 
+            IEEE Trans. on Neural Network and Learning System (TNNLS), 
+            vol. 25(12), pp. 2226-2239, 2014
+            H. Cao, X. L. Li, Y. K. Woon and S. K. Ng, 
+            "SPO: Structure Preserving Oversampling for Imbalanced Time Series Classification" 
+            Proc. IEEE Int. Conf. on Data Mining ICDM, 
+            pp. 1008-1013, 2011
 }
+
