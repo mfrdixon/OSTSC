@@ -126,7 +126,7 @@ ReguCovar <- function(cleanData, target_class, ratio, R, Per, k, m, parallel, pr
     
     # Form new data
     data_target_class <- rbind(t(sample_ada), sample_espo)
-    newData <- cbind(matrix(target_class, nTarget, 1), myData)
+    newData <- cbind(matrix(target_class, nTarget, 1), data_target_class)
     return(newData)
   } else {
     return(Positive)
