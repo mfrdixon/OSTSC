@@ -39,10 +39,6 @@ ReguCovar <- function(cleanData, target_class, ratio, R, Per, k, m, parallel, pr
   # The negative data is formed using a one-vs-rest manner.
   Positive <- cleanData[which(cleanData[, c(1)] == target_class), ]
   
-  if (nrow(Positive) == 0) {
-    stop ("The target_class does not exist in the input label.")  # check if Positive dataset is empty
-  }
-  
   Negative <- cleanData[which(cleanData[, c(1)] != target_class), ]
   
   P <- Positive[, -1]  # remove label column

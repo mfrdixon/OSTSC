@@ -1,6 +1,6 @@
 #' @title Over Sampling for Time Series Classification
 #' @description Oversample a time series sequence imbalance data.
-#' @details This function balances a binary imbalance time series data. 
+#' @details This function balances univariate imbalance time series data based on structure preserving oversampling. 
 #' @references H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng, 
 #'             "Integrated Oversampling for Imbalanced Time Series Classification" 
 #'             IEEE Trans. on Knowledge and Data Engineering (TKDE), 

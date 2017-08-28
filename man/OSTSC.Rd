@@ -42,7 +42,7 @@ label: the label corresponding to each row of records
 Oversample a time series sequence imbalance data.
 }
 \details{
-This function balances a binary imbalance time series data.
+This function balances univariate imbalance time series data based on structure preserving oversampling.
 }
 \examples{
 # This is a simple example to show the usage. A more complex example is inside the vignette.
