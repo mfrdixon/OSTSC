@@ -13,8 +13,7 @@ OSTSC(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5,
 \item{label}{Labels corresponding to samples}
 
 \item{class}{The number of the class which need to be oversampled, starting from the class with least observations, 
-with the default setting to as most as possible. When multiple classes has same number of observations,
-the class with numeric smaller label has the precedence.}
+with the default setting to as most as possible.}
 
 \item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1}
 
@@ -72,10 +71,12 @@ H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng,
             "Integrated Oversampling for Imbalanced Time Series Classification" 
             IEEE Trans. on Knowledge and Data Engineering (TKDE), 
             vol. 25(12), pp. 2809-2822, 2013
+            
             H. Cao, V. Y. F. Tan and J. Z. F. Pang, 
             "A Parsimonious Mixture of Gaussian Trees Model for Oversampling in Imbalanced and Multi-Modal Time-Series Classification" 
             IEEE Trans. on Neural Network and Learning System (TNNLS), 
             vol. 25(12), pp. 2226-2239, 2014
+            
             H. Cao, X. L. Li, Y. K. Woon and S. K. Ng, 
             "SPO: Structure Preserving Oversampling for Imbalanced Time Series Classification" 
             Proc. IEEE Int. Conf. on Data Mining ICDM, 
