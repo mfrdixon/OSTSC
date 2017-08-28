@@ -20,6 +20,7 @@ train_sample <- synthetic_control$train_x
 #### # the first dimension of feature and label shall be the same
 #### # the second dimention of feature is the time sequence length
 dim(train_sample)
+
 dim(train_label)
 #### # check the imbalance of the data
 table(train_label)
