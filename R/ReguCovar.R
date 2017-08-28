@@ -97,12 +97,14 @@ ReguCovar <- function(cleanData, target_class, ratio, R, Per, k, m, parallel, pr
         if (identical(progBar, FALSE)) {
           sample_espo <- ESPO(Me, V, dMod, P, N, R, M, NumToGen)
         } else {
+          cat("Oversampling class", target_class, "... \n")
           sample_espo <- ESPOBar(Me, V, dMod, P, N, R, M, NumToGen)
         }
       } else {
         if (identical(progBar, FALSE)) {
           sample_espo <- ESPOPara(Me, V, dMod, P, N, R, M, NumToGen)
         } else {
+          cat("Oversampling class", target_class, "... \n")
           sample_espo <- ESPOParaBar(Me, V, dMod, P, N, R, M, NumToGen)
         }
       }
