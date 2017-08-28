@@ -28,8 +28,8 @@ Suggests:
     knitr,
     rmarkdown,
     keras,
-    dummies
-    rlist
+    dummies,
+    rlist,
     pROC,
     devtools,
     testthat,
