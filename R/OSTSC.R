@@ -241,7 +241,6 @@ OSTSC <- function(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 
     newData <- ReguCovar(cleanData, target_class, ratio, R, Per, k, m, parallel, progBar)
     myData <- rbind(myData, newData)
   }
-  myData <- matrix(unlist(myData), ncol=ncol(myData))
   
   nData <- list()
   for (i in (class + 1):dim(claTab)[1]) {
@@ -252,6 +251,7 @@ OSTSC <- function(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5, m = 
   
   # form data
   data_new <- rbind(myData, nData)
+  data_new <- matrix(unlist(data_new), ncol=ncol(data_new))
   
   data_x <- data_new[, -1]
   data_y <- data_new[, c(1)]
