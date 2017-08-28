@@ -5,7 +5,7 @@
 #' normal status as class 0. The time series sequences length is set to 10. In this package, the class 1
 #' and class -1 observations are random selected till 600, while the class 0 is 28800. While the whole 
 #' observations are ordered in the time order, the dataset haven't split training and setting data. The 
-#' users can split it by ratio they like.
+#' users can split it by any ratio they like.
 #'
 #' @format A time series data with sequence length 10 and observations number 30000. 
 #' \describe{
@@ -42,6 +42,7 @@ dataset_HFT <- function() {
   # split label and sample data
   y <- newData[, 2]
   x <- newData[, c(-1, -2)]
+  x <- matrix(unlist(x), ncol = ncol(x))
   # form data
   HFT <- list("x" = x, "y" = y)
   # save data
