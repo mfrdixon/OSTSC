@@ -41,7 +41,7 @@
 #'   Column 9: gyro from the left-ankle sensor (X axis) 
 #'   Column 10: gyro from the left-ankle sensor (Y axis) 
 #'   Column 11: gyro from the left-ankle sensor (Z axis) 
-#'   Column 13: magnetometer from the left-ankle sensor (X axis) 
+#'   Column 12: magnetometer from the left-ankle sensor (X axis) 
 #'   Column 13: magnetometer from the left-ankle sensor (Y axis) 
 #'   Column 14: magnetometer from the left-ankle sensor (Z axis) 
 #'   Column 15: acceleration from the right-lower-arm sensor (X axis) 
