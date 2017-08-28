@@ -1,6 +1,6 @@
 #' Generate samples by ESPO and ADASYN.
 #' 
-#' @param data First column is label data, rest is sample data
+#' @param cleanData First column is label data, rest is sample data, without NA, NaN values
 #' @param target_class The class needs to be oversampled
 #' @param ratio Targeted positive samples number to achieve/negative samples number, with the default value 1.
 #' @param Per Percentage of the mixing between ESPO and ADASYN, with the default value 0.8
@@ -15,11 +15,11 @@
 #' @importFrom stats cov
 #' @keywords internal
 
-ReguCovar <- function(data, target_class, ratio, R, Per, k, m, parallel, progBar) {
+ReguCovar <- function(cleanData, target_class, ratio, R, Per, k, m, parallel, progBar) {
   # Generate samples by ESPO and ADASYN.
   #
   # Args:
-  #   data:         First column is label data, rest is sample data.
+  #   cleanData:    First column is label data, rest is sample data, without missing values.
   #   target_class: The class needs to be oversampled. 
   #   ratio:        Targeted positive samples number to achieve/negative samples number, 
   #                 with the default value 1.
