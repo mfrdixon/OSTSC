@@ -1,23 +1,24 @@
 Package: OSTSC
-Title: Over sampling for time series classification
-Version: 0.0.0.9000
-Author: Lan Wei [aut, trl, cre],
-    Hong Cao [aut],
-    Matthew Dixon [ctb],
-    Diego Klabjan [ctb]
+Title: Over Sampling for Time Series Classification
+Version: 0.0.1
+Author: Matthew Dixon [ctb],
+    Diego Klabjan [ctb],
+    Lan Wei [aut, trl, cre]
 Maintainer: Lan Wei <lweicdsor@gmail.com>
-Description: To balance the univariate imbalance time series data by a combination
-    of ESPO and ADASYN approaches.
+Description: Oversampling of imbalanced univariate time series classification
+    data using integrated ESPO and ADASYN methods. ESPO is used to generate a large percentage of the synthetic minority samples from univariate labeled time series under the modeling assumption that the predictors are Gaussian. EPSO estimates the covariance structure of the minority-class samples and applies a spectral filer to reduce noise. ADASYN is a nearest neighbor interpolation approach which is subsequently applied to the EPSO samples. This code is ported from a matlab
+    implementation by Cao et al. [2011] and adapted for use with Recurrent Neural
+    Networks implemented in 'TensorFlow'.
 Depends: R (>= 3.2.3)
 License: GPL-3
 URL: https://github.com/lweicdsor/OSTSC
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1.9000
 Imports: fields, MASS, stats, utils, parallel, doParallel, doSNOW,
         foreach
 Suggests: knitr, rmarkdown, keras, dummies, rlist, pROC, devtools,
-        testthat, xts, rio
+        testthat, xts
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-08-28 15:31:33 UTC; lwei
+Packaged: 2017-11-02 22:52:07 UTC; weilan

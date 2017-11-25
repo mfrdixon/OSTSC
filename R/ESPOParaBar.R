@@ -1,15 +1,15 @@
 #' Generate samples by ESPO algorithm.
 #' 
-#' @param Me Mean vector of positive class
-#' @param V Eigen axes matrix (Each axis is a column vector)
-#' @param D Modified Eigen Spectrum Value
-#' @param P The minority class samples
-#' @param N The majority class samples
-#' @param R An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
-#'          with the default value 1
-#' @param M Scalar tells the reliable portion of the eigen spectrum
-#' @param NumToGen The number of samples to be generated
-#' @return sample_espo
+#' @param me Mean vector of positive class
+#' @param v Eigen axes matrix (Each axis is a column vector)
+#' @param dMod Modified Eigen Spectrum Value
+#' @param p The minority class samples
+#' @param n The majority class samples
+#' @param r A scalar specifying which level (towards the boundary) we shall push the synethetic data, 
+#'          with the default value = 1
+#' @param m Scalar specifies the reliable portion of the eigen spectrum
+#' @param numToGen The number of samples to be generated
+#' @return sampleESPO
 #' @importFrom fields rdist 
 #' @importFrom MASS mvrnorm
 #' @importFrom parallel makeCluster stopCluster detectCores
@@ -18,37 +18,37 @@
 #' @importFrom utils setTxtProgressBar txtProgressBar
 #' @keywords internal
 
-ESPOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
+ESPOParaBar <- function(me, v, dMod, p, n, r, m, numToGen) {
   # Generate samples by ESPO.
   #
   # Args:
-  #   Me:       Mean vector of positive class.
-  #   V:        Eigen axes matrix (Each axis is a column vector).
-  #   D:        Modified Eigen Spectrum Value.
-  #   P:        The minority class samples.
-  #   N:        The majority class samples. P and N must have the same feature dimention, greater than one,
+  #   me:       Mean vector of positive class.
+  #   v:        Eigen axes matrix (Each axis is a column vector).
+  #   dMod:        Modified Eigen Spectrum Value.
+  #   p:        The minority class samples.
+  #   n:        The majority class samples. P and N must have the same feature dimention, greater than one,
   #             with no missing values.
-  #   R:        An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data,
-  #             with the default value 1.
-  #   M:        Scalar tells the reliable portion of the eigen spectrum.
-  #   NumToGen: The number of samples to be generated.
+  #   r:        A scalar ratio specifying which level (towards the boundary) we shall push the synthetic data,
+  #             with the default value = 1.
+  #   m:        Scalar specifies the reliable portion of the eigen spectrum.
+  #   numToGen: The number of samples to be generated.
   #
   # Returns:
-  #   The ESPO oversampled dataset sample_espo.
-  Rn <- M  # reliable portion of the eigen spectrum
-  Un <- length(Me) - M  # unreliable portion of the eigen spectrum
+  #   The ESPO oversampled dataset sampleESPO.
+  rn <- m  # reliable portion of the eigen spectrum
+  un <- length(me) - m  # unreliable portion of the eigen spectrum
   
-  MuR <- matrix(0, 1, Rn)  # mean
-  SigmaR <- diag(1, Rn)  # standard deviation
+  muR <- matrix(0, 1, rn)  # mean
+  sigmaR <- diag(1, rn)  # standard deviation
   
-  MuU <- matrix(0, 1, Un)  # mean
-  SigmaU <- diag(1, Un)  # standard deviation
+  muU <- matrix(0, 1, un)  # mean
+  sigmaU <- diag(1, un)  # standard deviation
   
-  SampSel <- matrix(0, NumToGen, length(Me))  # total samples would be kept
+  sampSel <- matrix(0, numToGen, length(me))  # total samples would be kept
   
-  DD <- sqrt(D)  # square root of modified eigen spectrum value
+  dd <- sqrt(dMod)  # square root of modified eigen spectrum value
   
-  nGener <- R * NumToGen  # number of total samples needed be created
+  nGener <- r * numToGen  # number of total samples needed be created
   cat("Oversampling by ESPO: \n")
   cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
   registerDoSNOW(cl)
@@ -57,32 +57,32 @@ ESPOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   opts <- list(progress = progress)
   # registerDoParallel(cl, cores = cores)
   seq <- foreach(cnt = 1:nGener, .combine = 'rbind', .options.snow = opts) %dopar% {
-    flag = TRUE
-    #  genetare new positive data sequence until accepted upon Euclidean distance checking
+    flag <- TRUE
+    #  generate new positive data sequence until accepted, using Euclidean distance checking
     while (flag) {
-      aR <- mvrnorm(1, MuR, SigmaR)  # generate random vectors from the multivariate normal distribution
-      tp <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)  # the density of the multivariate normal distribution
+      aR <- mvrnorm(1, muR, sigmaR)  # draw random vectors from the multivariate normal distribution
+      dens <- exp(-0.5*sum(aR^2) - length(aR)*log(2*pi)/2)  # the density of the multivariate normal distribution
       
-      if (Un > 0) {
-        aU <- mvrnorm(1, MuU, SigmaU)
-        a <- c(aR, aU)*DD  # The vector in Eigen transformed domain
+      if (un > 0) {
+        aU <- mvrnorm(1, muU, sigmaU)
+        a <- c(aR, aU)*dd  # The vector in Eigen transformed domain
       } else {
-        a <- aR*DD
+        a <- aR*dd
       }
-      x <- a %*% t(V) + Me  # the modified generated vector
+      x <- a %*% t(v) + me  # the modified generated vector
       
-      PDist <- rdist(x, P)  # the Euclidean distance between x and positive data
-      NDist <- rdist(x, N)  # the Euclidean distance between x and negative data
+      pDist <- rdist(x, p)  # the Euclidean distance between x and positive data
+      nDist <- rdist(x, n)  # the Euclidean distance between x and negative data
       
-      tmp <- min(NDist)  # the value of the smallest element in the Euclidean distance between x and negative data
-      ind <- which.min(NDist)  # the index of the smallest element in the Euclidean distance between x and negative data
+      val <- min(nDist)  # the value of the smallest element of the Euclidean distances between x and the negative samples
+      ind <- which.min(nDist)  # the index of the smallest element of the Euclidean distances between x and the negative samples
       
-      # check if to keep the generated vector upon the Euclidean distance between negative and positive data
-      if (min(PDist) < tmp) {
-        PPDist <- rdist(t(N[ind, ]), P)
-        if (tmp >= min(PPDist) && tmp <= max(PPDist)) {
-          res <- list("x" = x, "tp" = tp)
-          flag = FALSE
+      # check whether to keep the generated vector using the Euclidean distance between negative and positive data
+      if (min(pDist) < val) {
+        ppDist <- rdist(t(n[ind, ]), p)
+        if (val >= min(ppDist) && val <= max(ppDist)) {
+          res <- list("x" = x, "dens" = dens)
+          flag <- FALSE
           return(res)
         }
       }
@@ -91,17 +91,17 @@ ESPOParaBar <- function(Me, V, D, P, N, R, M, NumToGen) {
   close(pb)  # end progress bar
   stopCluster(cl)  # end parallel
   
-  SampGen <- matrix(unlist(seq[, 1]), ncol = length(Me), byrow = TRUE)
-  Prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
-  # upon the density of the multivariate normal distribution, extract samples from generated ones by given R ratio
-  for (i in 1:NumToGen) {
+  sampGen <- matrix(unlist(seq[, 1]), ncol = length(me), byrow = TRUE)
+  prob <- matrix(unlist(seq[, 2]), ncol = 1, byrow = TRUE)
+  # Draw samples from a multivariate normal distribution and discard based on the ratio r
+  for (i in 1:numToGen) {
     # tmp <- min(Prob)
-    ind <- which.min(Prob)
-    Prob[ind] <- Inf
-    SampSel[i, ] <- SampGen[ind, ]
+    ind <- which.min(prob)
+    prob[ind] <- Inf
+    sampSel[i, ] <- sampGen[ind, ]
   }
   
   # form new dataset
-  sample_espo <- rbind(SampSel, P)
-  return(sample_espo)
+  sampleESPO <- rbind(sampSel, p)
+  return(sampleESPO)
 }

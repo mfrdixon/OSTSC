@@ -1,11 +1,11 @@
 #' Generate samples by ADASYN approach.
 #' 
-#' @param P minority class samples
-#' @param N majority class samples
+#' @param p minority class samples
+#' @param n majority class samples
 #' @param nTarget the targeted number of samples to achieve
-#' @param k k-NN used in the ADASYN algorithm, with the default value 5
-#' @param m m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15
-#' @return sample_ada
+#' @param k number of the neareat neighbour in k-NN used by the ADASYN algorithm, with the default value of 5
+#' @param m seeds from the positive class in m-NN used by the ADASYN algorithm, with the default value of 15
+#' @return sampleADA
 #' @importFrom fields rdist 
 #' @importFrom stats runif 
 #' @importFrom parallel makeCluster stopCluster detectCores
@@ -13,81 +13,81 @@
 #' @importFrom foreach foreach %dopar%
 #' @keywords internal
 
-ADASYNPara <- function(P, N, nTarget, k, m) {
+ADASYNPara <- function(p, n, nTarget, k, m) {
   # Generate samples by ADASYN.
   #
   # Args:
-  #   P:       The minority class samples.
-  #   N:       The majority class samples. P and N must have the same feature dimention, greater than one,
+  #   p:       The minority class samples.
+  #   n:       The majority class samples. P and N must have the same feature dimension, greater than one,
   #            with no missing values.
   #   nTarget: The targeted number of samples to achieve.
-  #   k:       k-NN used in the ADASYN algorithm, with the default value 5.
-  #   m:       m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15.
+  #   k:       k-NN used in the ADASYN algorithm, with the default value of 5.
+  #   m:       m-NN used in ADASYN, finding seeds from the Positive Class, with the default value of 15.
   #
   # Returns:
-  #   The ADASYN oversampled dataset sample_ada.
-  NT <- ncol(P)  # NT is number of samples in P
-  if (NT == 0) {
+  #   The ADASYN oversampled dataset sampleADA.
+  nt <- ncol(p)  # NT is number of samples in P
+  if (nt == 0) {
     stop ("The minority class is empty")
-  } else if (NT == 1) {
-    sample_ada <- kronecker(matrix(1, 1, nTarget), P)  # duplicate
+  } else if (nt == 1) {
+    sampleADA <- kronecker(matrix(1, 1, nTarget), p)  # duplicate
   } else {
-    if (k > NT-1) {
-      k <- NT-1  # number of nearest neighbours can not be greater than NT-1
+    if (k > nt-1) {
+      k <- nt-1  # number of nearest neighbours can not be greater than nt-1
       warning ("The minority class instances is not enough. k is set to ", k)
     } 
-    NumAtt <- nrow(P)  # Feature dimension
-    ratio <- FindRatioPara(P, N, m)  # the ratio of each positive sample need to be duplicated
-    No <- round(nTarget*ratio)  # the number of each positive sample need to be duplicated
+    numAtt <- nrow(p)  # Feature dimension
+    ratio <- FindRatioPara(p, n, m)  # the ratio of each positive sample need to be duplicated
+    no <- round(nTarget*ratio)  # the number of each positive sample need to be duplicated
     # adjust No to make the total number of new created samples to equal to the number needed
-    while (sum(No) != nTarget) {
-      # tmp <- max(No)
-      ind <- which.max(No)
-      diff <- nTarget - sum(No)
-      if (No[ind] + diff > 0) {
-        No[ind] <- No[ind] + diff
+    while (sum(no) != nTarget) {
+      # tmp <- max(no)
+      ind <- which.max(no)
+      diff <- nTarget - sum(no)
+      if (no[ind] + diff > 0) {
+        no[ind] <- no[ind] + diff
       } else {
-        No[ind] <- 0
+        no[ind] <- 0
       }
     }
     # data generation
-    nlen <- length(No)  # number of positive samples    
+    nlen <- length(no)  # number of positive samples    
     i <- 0
     cl <- makeCluster(detectCores(logical = FALSE) - 1)  # start parallel
     registerDoParallel(cl)
-    sample_ada <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
-      if (No[i] != 0) {
+    sampleADA <- foreach(i = 1:nlen, .combine = 'cbind') %dopar% {
+      if (no[i] != 0) {
         # k-NN
-        d <- rdist(t(P[, i]), t(P))  # the Euclidean distance between each positive sample and other positive data
+        d <- rdist(t(p[, i]), t(p))  # the Euclidean distance between each positive sample and other positive data
         d[i] <-Inf  # Set d[i] to infinity manually
         # Find the k indices corresponding to the closest indices
-        if (k<log(NT)) {
-          min_id <- list()
+        if (k<log(nt)) {
+          minId <- list()
           for (j in 1:k) {
             # tmp <- min(d)
             id <- which.min(d)
             d[id] <-Inf
-            min_id <- cbind(min_id, id)  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
+            minId <- cbind(minId, id)  # sort>=O(n*logn),so we take min: O(n).total time:O(k*n)
           } 
         }else {
           # tmp <- sort(d)
           id <- order(d)
-          min_id <- id[1:k]
+          minId <- id[1:k]
         }
         
-        rn <- floor(runif(No[i], min=0, max=k)) + 1  # random generated No[i] elements integer vector in range 1 to k
-        id <- min_id[rn]
-        weight <- matrix(runif(NumAtt*No[i]), nrow=NumAtt, ncol=No[i], byrow = TRUE)
-        D <- kronecker(matrix(1, 1, No[i]), P[, i])
+        rn <- floor(runif(no[i], min = 0, max = k)) + 1  # random generated No[i] elements integer vector in range 1 to k
+        id <- minId[rn]
+        weight <- matrix(runif(numAtt * no[i]), nrow = numAtt, ncol = no[i], byrow = TRUE)
+        kro <- kronecker(matrix(1, 1, no[i]), p[, i])
         
         # for numeric attributes
-        aid <- 1:NumAtt
-        D[aid, ] <- D[aid, ] + weight[aid, ]*(P[aid, unlist(id)] - D[aid, ])
+        aid <- 1:numAtt
+        kro[aid, ] <- kro[aid, ] + weight[aid, ]*(p[aid, unlist(id)] - kro[aid, ])
         
-        return(D)
+        return(kro)
       }
     }
     stopCluster(cl)  # end parallel
   }
-  return(sample_ada)
+  return(sampleADA)
 }

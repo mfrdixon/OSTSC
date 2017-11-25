@@ -4,31 +4,30 @@
 \alias{ESPOParaBar}
 \title{Generate samples by ESPO algorithm.}
 \usage{
-ESPOParaBar(Me, V, D, P, N, R, M, NumToGen)
+ESPOParaBar(me, v, dMod, p, n, r, m, numToGen)
 }
 \arguments{
-\item{Me}{Mean vector of positive class}
+\item{me}{Mean vector of positive class}
 
-\item{V}{Eigen axes matrix (Each axis is a column vector)}
+\item{v}{Eigen axes matrix (Each axis is a column vector)}
 
-\item{D}{Modified Eigen Spectrum Value}
+\item{dMod}{Modified Eigen Spectrum Value}
 
-\item{P}{The minority class samples}
+\item{p}{The minority class samples}
 
-\item{N}{The majority class samples}
+\item{n}{The majority class samples}
 
-\item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
-with the default value 1}
+\item{r}{A scalar specifying which level (towards the boundary) we shall push the synethetic data, 
+with the default value = 1}
 
-\item{M}{Scalar tells the reliable portion of the eigen spectrum}
+\item{m}{Scalar specifies the reliable portion of the eigen spectrum}
 
-\item{NumToGen}{The number of samples to be generated}
+\item{numToGen}{The number of samples to be generated}
 }
 \value{
-sample_espo
+sampleESPO
 }
 \description{
 Generate samples by ESPO algorithm.
 }
 \keyword{internal}
-

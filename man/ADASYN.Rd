@@ -4,24 +4,23 @@
 \alias{ADASYN}
 \title{Generate samples by ADASYN approach.}
 \usage{
-ADASYN(P, N, nTarget, k, m)
+ADASYN(p, n, nTarget, k, m)
 }
 \arguments{
-\item{P}{minority class samples}
+\item{p}{minority class samples}
 
-\item{N}{majority class samples}
+\item{n}{majority class samples}
 
 \item{nTarget}{the targeted number of samples to achieve}
 
-\item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
+\item{k}{is the number of nearest neighbours in the ADASYN algorithm, with the default value of 5}
 
-\item{m}{m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15}
+\item{m}{seeds from the positive class in k-NN of the ADASYN algorithm, with the default value of 15}
 }
 \value{
-sample_ada
+sampleADA
 }
 \description{
 Generate samples by ADASYN approach.
 }
 \keyword{internal}
-

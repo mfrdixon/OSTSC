@@ -4,28 +4,31 @@
 \alias{ReguCovar}
 \title{Generate samples by ESPO and ADASYN.}
 \usage{
-ReguCovar(cleanData, target_class, ratio, R, Per, k, m, parallel, progBar)
+ReguCovar(cleanData, targetClass, ratio, r, per, k, m, parallel, progBar)
 }
 \arguments{
-\item{cleanData}{First column is label data, rest is sample data, without NA, NaN values}
+\item{cleanData}{First column stores the label data. The other columns store the sample data (without NA, NaN values)}
 
-\item{target_class}{The class needs to be oversampled}
+\item{targetClass}{The class to be oversampled}
 
-\item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1.}
+\item{ratio}{The oversampling ratio 
+number (>=1) (default = 1)}
 
-\item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data, 
-with the default value 1}
+\item{r}{A scalar ratio specifying which level (towards the boundary) we shall 
+push the synthetic data (in ESPO, default = 1)}
 
-\item{Per}{Percentage of the mixing between ESPO and ADASYN, with the default value 0.8}
+\item{per}{Ratio of weighting between ESPO and ADASYN (default = 0.8)}
 
-\item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
+\item{k}{Number of nearest neighbours in k-NN (for ADASYN) algorithm (default = 5)}
 
-\item{m}{m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15}
+\item{m}{Seeds from the positive class in m-NN (for ADASYN) algorithm (default = 15)}
 
-\item{parallel}{Whether to run in parallel, with the default setting TRUE 
-(Recommend for dataset with over 30,000 records)}
+\item{parallel}{Whether to execute in parallel mode (default = TRUE). 
+(Recommended for datasets with over 30,000 records.)}
 
-\item{progBar}{Whether to include progress bars, with the default setting TRUE}
+\item{progBar}{Whether to include progress bars (default = TRUE).
+For ESPO approach, the bar charactor is |--------|100\%. 
+For ADASYN approach, the bar charactor is |========|100\%.}
 }
 \value{
 newData
@@ -34,4 +37,3 @@ newData
 Generate samples by ESPO and ADASYN.
 }
 \keyword{internal}
-

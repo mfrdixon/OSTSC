@@ -4,7 +4,7 @@
 \alias{OSTSC}
 \title{Over Sampling for Time Series Classification}
 \usage{
-OSTSC(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5,
+OSTSC(sample, label, class, ratio = 1, per = 0.8, r = 1, k = 5,
   m = 15, parallel = TRUE, progBar = TRUE)
 }
 \arguments{
@@ -12,24 +12,26 @@ OSTSC(sample, label, class, ratio = 1, Per = 0.8, R = 1, k = 5,
 
 \item{label}{Labels corresponding to samples}
 
-\item{class}{The number of the class which need to be oversampled, starting from the class with least observations, 
-with the default setting to as most as possible.}
+\item{class}{The number of the classes to be oversampled, starting 
+from the class with the fewest observations, with the default setting 
+to progress to as many classes as possible.}
 
-\item{ratio}{Targeted positive samples number to achieve/negative samples number, with the default value 1}
+\item{ratio}{The oversampling ratio 
+number (>=1) (default = 1)}
 
-\item{Per}{Percentage of the mixing between ESPO and ADASYN, with the default value 0.8}
+\item{per}{Ratio of weighting between ESPO and ADASYN (default = 0.8)}
 
-\item{R}{An scalar ratio to tell in which level (towards the boundary) we shall push our syntactic data in ESPO, 
-with the default value 1}
+\item{r}{A scalar ratio specifying which level (towards the boundary) we shall 
+push the synthetic data in ESPO (default = 1)}
 
-\item{k}{k-NN used in the ADASYN algorithm, with the default value 5}
+\item{k}{Number of nearest neighbours in k-NN (for ADASYN) algorithm (default = 5)}
 
-\item{m}{m-NN used in ADASYN, finding seeds from the Positive Class, with the default value 15}
+\item{m}{Seeds from the positive class in m-NN (for ADASYN) algorithm (default = 15)}
 
-\item{parallel}{Whether to run in parallel, with the default setting TRUE. 
-(Recommend for dataset with over 30,000 records. The using cores is 1 less than the total cores)}
+\item{parallel}{Whether to execute in parallel mode (default = TRUE). 
+(Recommended for datasets with over 30,000 records.)}
 
-\item{progBar}{Whether to include progress bars, with the default setting TRUE.
+\item{progBar}{Whether to include progress bars (default = TRUE).
 For ESPO approach, the bar charactor is |--------|100\%. 
 For ADASYN approach, the bar charactor is |========|100\%.}
 }
@@ -39,26 +41,49 @@ sample: the time series sequences data oversampled
 label: the label corresponding to each row of records
 }
 \description{
-Oversample a time series sequence imbalance data.
+Oversample a univariate, multi-modal time series sequence of imbalanced classified data.
 }
 \details{
-This function balances univariate imbalance time series data based on structure preserving oversampling.
+This function balances univariate imbalance time series data based on 
+structure preserving oversampling.
 }
 \examples{
-# This is a simple example to show the usage. A more complex example is inside the vignette.
+# This is a simple example to show the usage of OSTSC. See the vignetter for a tutorial 
+# demonstrating more complex examples.
+# Example one
 # loading data
-data(dataset_synthetic_control)
+data(Dataset_Synthetic_Control)
 # get split feature and label data 
-train_label <- dataset_synthetic_control$train_y
-train_sample <- dataset_synthetic_control$train_x
-# the first dimension of feature and label shall be the same
-# the second dimention of feature is the time sequence length
-dim(train_sample)
-dim(train_label)
+train.label <- Dataset_Synthetic_Control$train.y
+train.sample <- Dataset_Synthetic_Control$train.x
+# the first dimension of the feature set and labels must be the same
+# the second dimension of the feature set is the sequence length
+dim(train.sample)
+dim(train.label)
+# check the imbalance ratio of the data
+table(train.label)
+# oversample class 1 to the same number of observations as class 0
+MyData <- OSTSC(train.sample, train.label, parallel = FALSE)
+# store the feature data after oversampling
+x <- MyData$sample
+# store the label data after oversampling
+y <- MyData$label
 # check the imbalance of the data
-table(train_label)
-# oversample the class 1 to the same amount of class 0
-MyData <- OSTSC(train_sample, train_label, parallel = FALSE)
+table(y)
+# Example two
+# loading data
+ecg <- Dataset_ECG()
+# get split feature and label data 
+train.label <- ecg$train.y
+train.sample <- ecg$train.x
+# the first dimension of the feature set and labels must be the same
+# the second dimension of the feature set is the sequence length
+dim(train.sample)
+dim(train.label)
+# check the imbalance ratio of the data
+table(train.label)
+# oversample class 3, 4, 5 to the same number of observations as class 1
+MyData <- OSTSC(train.sample, train.label, parallel = FALSE)
 # store the feature data after oversampling
 x <- MyData$sample
 # store the label data after oversampling
@@ -82,4 +107,3 @@ H. Cao, X.-L. Li, Y.-K. Woon and S.-K. Ng,
             Proc. IEEE Int. Conf. on Data Mining ICDM, 
             pp. 1008-1013, 2011
 }
-
