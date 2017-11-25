@@ -61,7 +61,7 @@ Let $q_{ij} = L_{s}^{T}x_{ij}$ represent $x_{ij}$ in a lower-dimensional signal 
 Let 
 
 $$W_p=\frac{1}{|P|}\sum_{j=1}^{|P|}(q_{1j}-\bar{q}_1)(q_{1j}-\bar{q}_1)^T.$$
-and let $\hat{D}=V^TW_pV$ be the eigendecomposition with the diagonal matrix $\hat{D}$ of regularized eigenvalues $\left \{ \hat{d_{1}}, ..., %\hat{d_{n}}\right \}$, sorted in descending order, and with orthogonal eigenvector matrix $V$. Then we generate a synthetic positive sample from
+and let $\hat{D}=V^TW_pV$ be the eigendecomposition with the diagonal matrix $\hat{D}$ of regularized eigenvalues $\left \{ \hat{d_{1}}, ..., \hat{d_{n}}\right \}$, sorted in descending order, and with orthogonal eigenvector matrix $V$. Then we generate a synthetic positive sample from
 
 $$b=\hat{D}^{1/2}V^Tz + \bar{q_{1}}.$$
 
@@ -396,29 +396,29 @@ history.over.losses <- as.vector(unlist(ed$history.over.losses))
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 1) of the LSTM classifier trained on the unbalanced and balanced Electrical Devices dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_1s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on Electrical Devices dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_1s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_1s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 0) of the LSTM classifier trained on the unbalanced and balanced Electrical Devices dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_0s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on Electrical Devices dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_0s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_0s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The losses of the LSTM classifier trained on the unbalanced and balanced Electrical Devices dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
-plot(history.losses, type = "b", pch = 19, col = "blue", main = "Loss of the LSTM classifier on Electrical Devices dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1), xlim = c(0, 50))
+plot(history.losses, type = "b", pch = 0, col = "blue", main = "Loss of the LSTM classifier on Electrical Devices dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1), xlim = c(0, 50))
 lines(history.over.losses, type = "b", pch = 19, col = "red")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("Loss", side = 2, las = 1, line = 2)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 In addition to the training history, Figures 4 and 5 compare the confusion matrices of the two models without and with oversampling. Figure 6 compares the receiver operating characteristic (ROC) curves of the models. The final out-of-sample F1 scores of the two trained models are also shown below for comparison.
@@ -507,11 +507,11 @@ text(295, 335, round(res[4]/sum2, 4), cex=1.3, font=2, col='white')
 library(pROC)
 par(pty = "s")
 plot.roc(as.vector(test.label), pred.label, legacy.axes = TRUE, col = "blue", print.auc = TRUE,  
-         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate') 
+         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate', lty = "dashed")
 plot.roc(as.vector(test.label), pred.label.over, legacy.axes = TRUE, col = "red", print.auc = TRUE,   
          print.auc.y = .4, print.auc.cex= .8, add = TRUE)
-legend("bottomright", legend=c("Without oversampling", "With oversampling"), 
-       col=c("blue", "red"), lwd=2, cex= .6)
+legend("bottomright", legend=c("Before Oversampling", "After Oversampling"), 
+       col=c("blue", "red"), lwd=2, cex= .6, lty = c("dashed", "solid"))
 ```
 
 #### The Electrocardiogram dataset 
@@ -632,38 +632,38 @@ From the losses and F1 scores, we note that the model has not yet been adequatel
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 2) of the LSTM classifier trained on the unbalanced and balanced Electrocardiogram dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_2s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on Electrocardiogram dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_2s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_2s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ``` 
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 1) of the LSTM classifier trained on the unbalanced and balanced Electrocardiogram dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_1s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on Electrocardiogram dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_1s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_1s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 0) of the LSTM classifier trained on the unbalanced and balanced Electrocardiogram dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_0s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on Electrocardiogram dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_0s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_0s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The losses of the LSTM classifier trained on the unbalanced and balanced Electrocardiogram dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
-plot(history.losses, type = "b", pch = 19, col = "blue", main = "Loss of the LSTM classifier on Electrocardiogram dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1.2), xlim = c(0, 50))
+plot(history.losses, type = "b", pch = 0, col = "blue", main = "Loss of the LSTM classifier on Electrocardiogram dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1.2), xlim = c(0, 50))
 lines(history.over.losses, type = "b", pch = 19, col = "red")
 axis(1, at = c(0,5,10,15,20,25,30,35,40,45,50),labels = c(0,5,10,15,20,25,30,35,40,45,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2), las = 1)
 mtext("Loss", side = 2, las = 1, line = 2)
-legend("topright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 In addition to the training history, Figures 11 and 12 compare the confusion matrices of the two models without and with oversampling. Figure 13 compares the receiver operating characteristic (ROC) curves of the models. The final F1 scores of the two trained models, using the same validation set, are also shown below for comparison.
@@ -778,11 +778,11 @@ text(310, 320, round(res[9]/sum3, 4), cex=1.3, font=2, col='white')
 library(pROC)
 par(pty = "s")
 plot.roc(as.vector(test.label), pred.label, legacy.axes = TRUE, col = "blue", print.auc = TRUE,  
-         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate')
+         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate', lty = "dashed")
 plot.roc(as.vector(test.label), pred.label.over, legacy.axes = TRUE, col = "red", print.auc = TRUE,   
          print.auc.y = .4, print.auc.cex= .8, add = TRUE)
-legend("bottomright", legend=c("Without oversampling", "With oversampling"), 
-       col=c("blue", "red"), lwd=2, cex= .6)
+legend("bottomright", legend=c("Before Oversampling", "After Oversampling"), 
+       col=c("blue", "red"), lwd=2, cex= .6, lty = c("dashed", "solid"))
 ```
 
 ### Evaluating OSTSC on the large datasets
@@ -899,29 +899,29 @@ history.over.losses <- as.vector(unlist(mhealth$history.over.losses))
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 1) of the LSTM classifier trained on the unbalanced and balanced MHEALTH dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_1s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on MHEALTH dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_1s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_1s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,10,20,30,40,50),labels = c(0,10,20,30,40,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 0) of the LSTM classifier trained on the unbalanced and balanced MHEALTH dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_0s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on MHEALTH dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 50))
-lines(history.val_f1_0s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_0s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,10,20,30,40,50),labels = c(0,10,20,30,40,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The losses of the LSTM classifier trained on the unbalanced and balanced MHEALTH dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
-plot(history.losses, type = "b", pch = 19, col = "blue", main = "Loss of the LSTM classifier on MHEALTH dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1), xlim = c(0, 50))
+plot(history.losses, type = "b", pch = 0, col = "blue", main = "Loss of the LSTM classifier on MHEALTH dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1), xlim = c(0, 50))
 lines(history.over.losses, type = "b", pch = 19, col = "red")
 axis(1, at = c(0,10,20,30,40,50),labels = c(0,10,20,30,40,50), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("Loss", side = 2, las = 1, line = 2)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, echo = FALSE}
@@ -998,13 +998,12 @@ text(295, 335, round(res[4]/sum2, 4), cex=1.3, font=2, col='white')
 ```{r, echo = FALSE, warning = FALSE, message = FALSE, fig.width = 4, fig.height = 4, fig.cap = "ROC curves of LSTM applied to the MHEALTH dataset, with and without oversampling."}
 library(pROC)
 par(pty = "s")
-plot.roc(as.vector(test.label), pred.label, legacy.axes = TRUE, col = "blue", 
-         print.auc = TRUE, print.auc.cex= .8, xlab = 'False Positive Rate', 
-         ylab = 'True Positive Rate')
-plot.roc(as.vector(test.label), pred.label.over, legacy.axes = TRUE, col = "red", 
-         print.auc = TRUE, print.auc.y = .4, print.auc.cex= .8, add = TRUE)
-legend("bottomright", legend=c("Without Oversampling", "With Oversampling"), 
-       col=c("blue", "red"), lwd=2, cex= .6)
+plot.roc(as.vector(test.label), pred.label, legacy.axes = TRUE, col = "blue", print.auc = TRUE,  
+         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate', lty = "dashed")
+plot.roc(as.vector(test.label), pred.label.over, legacy.axes = TRUE, col = "red", print.auc = TRUE,   
+         print.auc.y = .4, print.auc.cex= .8, add = TRUE)
+legend("bottomright", legend=c("Before Oversampling", "After Oversampling"), 
+       col=c("blue", "red"), lwd=2, cex= .6, lty = c("dashed", "solid"))
 ```
 
 #### The high frequency trading dataset
@@ -1113,38 +1112,38 @@ history.over.losses <- as.vector(unlist(hft$history.over.losses))
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 1) of the LSTM classifier trained on the unbalanced and balanced HFT dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_1s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on HFT dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 100))
-lines(history.val_f1_1s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_1s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,10,20,30,40,50,60,70,80,90,100),labels = c(0,10,20,30,40,50,60,70,80,90,100), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ``` 
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class 0) of the LSTM classifier trained on the unbalanced and balanced HFT dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_0s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on HFT dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 100))
-lines(history.val_f1_0s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_0s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,10,20,30,40,50,60,70,80,90,100),labels = c(0,10,20,30,40,50,60,70,80,90,100), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("bottomright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The F1 scores (class -1) of the LSTM classifier trained on the unbalanced and balanced HFT dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
 plot(history.over.val_f1_2s, type = "b", pch = 19, col = "red", main = "F1 of the LSTM classifier on HFT dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0.0, 1.0), xlim = c(0, 100))
-lines(history.val_f1_2s, type = "b", pch = 19, col = "blue")
+lines(history.val_f1_2s, type = "b", pch = 0, col = "blue")
 axis(1, at = c(0,10,20,30,40,50,60,70,80,90,100),labels = c(0,10,20,30,40,50,60,70,80,90,100), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1), las = 1)
 mtext("F1", side = 2, las = 1, line = 3)
-legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topleft", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, fig.width = 6, fig.height = 5, fig.cap = "The losses of the LSTM classifier trained on the unbalanced and balanced HFT dataset. Both metrics are evaluated at the end of each epoch.", echo = FALSE}
-plot(history.losses, type = "b", pch = 19, col = "blue", main = "Loss of the LSTM classifier on HFT dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1.2), xlim = c(0, 100))
+plot(history.losses, type = "b", pch = 0, col = "blue", main = "Loss of the LSTM classifier on HFT dataset", yaxt = "n", xaxt = "n", xlab = "Epoches", ylab = "", ylim = c(0, 1.2), xlim = c(0, 100))
 lines(history.over.losses, type = "b", pch = 19, col = "red")
 axis(1, at = c(0,10,20,30,40,50,60,70,80,90,100),labels = c(0,10,20,30,40,50,60,70,80,90,100), las = 1)
 axis(2, at = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2), labels = c(0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1,1.1,1.2), las = 1)
 mtext("Loss", side = 2, las = 1, line = 2)
-legend("topright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), bty = "n", lwd = 2, cex = 0.7)
+legend("topright", legend = c("Balanced dataset", "Unbalanced dataset"), col = c("red","blue"), pch = c(19, 0), lty = c(NA, NA), bty = "n", lwd = 2, cex = 0.7)
 ```
 
 ```{r, eval = FALSE}
@@ -1259,11 +1258,11 @@ text(310, 320, round(res[9]/sum3, 4), cex=1.3, font=2, col='white')
 library(pROC)
 par(pty = "s")
 plot.roc(as.vector(test.label), pred.label, legacy.axes = TRUE, col = "blue", print.auc = TRUE,  
-         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate')
+         print.auc.cex= .8, xlab = 'False Positive Rate', ylab = 'True Positive Rate', lty = "dashed")
 plot.roc(as.vector(test.label), pred.label.over, legacy.axes = TRUE, col = "red", print.auc = TRUE,   
          print.auc.y = .4, print.auc.cex= .8, add = TRUE)
 legend("bottomright", legend=c("Before Oversampling", "After Oversampling"), 
-       col=c("blue", "red"), lwd=2, cex= .6)
+       col=c("blue", "red"), lwd=2, cex= .6, lty = c("dashed", "solid"))
 ```
 
 The comparative results are similar to the MHEALTH dataset - oversampling improves the performance and the comparative gain from using OSTSC only increases with more training observations and more epoches.
