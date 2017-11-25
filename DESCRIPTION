@@ -1,10 +1,10 @@
 Package: OSTSC
 Title: Over Sampling for Time Series Classification
 Version: 0.0.1
-Author: Matthew Dixon [ctb],
+Author: Matthew Dixon [ctb, cre],
     Diego Klabjan [ctb],
-    Lan Wei [aut, trl, cre]
-Maintainer: Lan Wei <lweicdsor@gmail.com>
+    Lan Wei [aut, trl]
+Maintainer: Matthew Dixon <mfrdixon@gmail.com>
 Description: Oversampling of imbalanced univariate time series classification
     data using integrated ESPO and ADASYN methods. ESPO is used to generate a large percentage of the synthetic minority samples from univariate labeled time series under the modeling assumption that the predictors are Gaussian. EPSO estimates the covariance structure of the minority-class samples and applies a spectral filer to reduce noise. ADASYN is a nearest neighbor interpolation approach which is subsequently applied to the EPSO samples. This code is ported from a matlab
     implementation by Cao et al. [2011] and adapted for use with Recurrent Neural
